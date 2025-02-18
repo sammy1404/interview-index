@@ -5,10 +5,11 @@ const anon_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 
 const supabase = createClient(url, anon_key);
 
-const get_student_details = async () => {
+const get_student_details = async (usn: string) => {
   const { data, error } = await supabase
     .from('Student_info')
-    .select();
+    .select()
+    .eq('USN', usn);
 
   if (error) {
     console.error("Error fetching students: ", error);
