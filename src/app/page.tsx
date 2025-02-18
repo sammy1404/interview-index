@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import get_student_details from "../components/server/student_retrieval.tsx";
+import { get_student_details } from "../components/server/student_retrieval";
 
 export default function Home() {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
