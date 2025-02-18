@@ -1,9 +1,11 @@
 "use client"
-import { Input } from "@/components/ui/input"
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { get_student_details } from '../server/student_retrieval'
+
+
+import { Input } from "@/components/ui/input"
+
+import { get_student_details } from "../server/student_retrieval";
 import { useState } from 'react'
 
 export default function Student_display() {
