@@ -1,34 +1,39 @@
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { get_student_details } from '../server/student_retrieval'
-import { useEffect, useState} from 'react'
+import { get_interview_stats } from '../server/interview_retrieval'
+import { useState } from 'react'
 
-export default function Student_display() {
+export default function Interview_display() {
 
   const [students, setStudents] = useState<any[]>([]);
+  const [companyName, setCompanyName] = useState("");
   const [usn, setUSN] = useState("");
-  const [name, setName] = useState("");
 
   const get_details = async () => {
-    const data = await get_student_details(usn);
+    const data = await get_interview_stats(usn);
     if (data) setStudents(data);
   };
 
-  useEffect(() => {
-    if (students.length > 0) {
-      setName(students[0].Name);
-    }
-  }, [students])
-
+  const filterdCompanies = students.filter((student) => {
+    student.toLowerCase().includes(companyName.toLowerCase())
+  })
 
   return (
     <div>
-      <div className="student-info-container">
-        <p>{name}</p>
+      <div className="interview-stats">
+        {students.map((student, index) => (
+          <div key={index} className='company-container'>
+            <div className='main-info'>
+              <h3>{student.company_name}</h3>
+              <p>Eligibility: {student.eligibility}</p>
+              <p>Opt-In: {student.applied}</p>
+              <p>Participated: {student.participated}</p>
+            </div>
+          </div>
+        ))}
+        <input onChange={(e) => setCompanyName(e.target.value)} placeholder='Example: Google'></input>
       </div>
-      <input type="text" onChange={(e) => setUSN(e.target.value)} />
-      <button onClick={get_details}>Load Student</button>
     </div>
   );
 }

@@ -7,10 +7,11 @@ const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 const supabase = createClient(url, anon_key);
 
-export default async function get_student_details() {
+const get_interview_stats = async (usn: string) => {
   const { data, error } = await supabase
     .from('interview_stats')
-    .select();
+    .select()
+    .eq("usn", usn);
 
   if (error) {
     console.error("Error fetching interview stats: ", error);
@@ -20,4 +21,8 @@ export default async function get_student_details() {
   return data;
 }
 
+
+export {
+  get_interview_stats
+}
 
