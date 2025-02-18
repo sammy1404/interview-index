@@ -29,15 +29,15 @@ export default function Interview_display( {usn}: Props ) {
         {students.map((student, index) => (
           <div key={index} className='company-container'>
             <div className='main-info'>
-              <h3>{student.company_name}</h3>
-              <p>Eligibility: {student.eligibility}</p>
-              <p>Opt-In: {student.applied}</p>
-              <p>Participated: {student.participated}</p>
+              <h2 className="text-xl">{student.company_name}</h2>
+              <p>Eligibility: {student.eligibility ? "✅" : "❌"}</p>
+              <p>Opt-In: {student.applied ? "✅" : "❌"}</p>
+              <p>Participated: {student.participated ? "✅" : "❌"}</p>
             </div>
           </div>
         ))}
-        <input onChange={(e) => setCompanyName(e.target.value)} placeholder='Example: Google'></input>
       </div>
+      <input onChange={(e) => setCompanyName(e.target.value)} placeholder='Example: Google'></input>
     </div>
   );
 }
