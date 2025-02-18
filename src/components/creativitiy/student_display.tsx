@@ -1,21 +1,24 @@
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Input } from "@/components/ui/input"
-
 import { get_student_details } from "../server/student_retrieval";
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function Student_display() {
+type Props = {
+  usn: string;
+}
+
+export default function Student_display({ usn }: Props) {
 
   const [students, setStudents] = useState<any[]>([]);
-  const [usn, setUSN] = useState("");
   
-  const get_details = async () => {
-    const data = await get_student_details(usn);
-    if (data) setStudents(data);
-  };
-
+  useEffect(() => {
+    const get_details = async () => {
+      const data = await get_student_details(usn);
+      if (data) setStudents(data);
+    };
+    get_details();
+  }, [usn]);
 
 
   return (
@@ -24,9 +27,6 @@ export default function Student_display() {
         <p>{students[0]?.name}</p>
         <p>{students[0]?.usn}</p>
       </div>
-
-      <Input type="text" placeholder="USN" onChange={(e) => setUSN(e.target.value)}/>
-      <button onClick={get_details}>Load Student</button>
     </div>
   );
 }

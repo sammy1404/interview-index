@@ -1,0 +1,35 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid white;
+}
+
+.header h1 {
+    font-size: 2em;
+    color: white;
+}
+
+.nav-links {
+    width: 30em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.links {
+    padding-top: 5px;
+    border-top: 2px solid white;
+}
+
+.usn-input {
+    width: 20em;
+    height: 2em;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding-left: 5px;
+
+    background-color: hsl(var(--background));
+    color: white;
+
+    align-self: center;
+}

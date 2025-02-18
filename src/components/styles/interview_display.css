@@ -1,17 +1,30 @@
 .interview-stats {
+    min-width: 10rem;
+    max-height: 44rem;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     margin-top: 1rem;
+
+    overflow: scroll;
+    scrollbar-width: none;
+}
+.interview-stats::-webkit-scrollbar {
+    display: none;
 }
 
 .company-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 20rem;
+
+    border: 2px solid white;
 }
 
 .main-info {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }

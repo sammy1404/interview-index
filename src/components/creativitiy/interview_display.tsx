@@ -1,23 +1,27 @@
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import "../styles/interview_display.css"
 import { get_interview_stats } from '../server/interview_retrieval'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function Interview_display() {
+type Props = {
+  usn: string;
+}
+
+export default function Interview_display( {usn}: Props ) {
 
   const [students, setStudents] = useState<any[]>([]);
   const [companyName, setCompanyName] = useState("");
-  const [usn, setUSN] = useState("");
 
-  const get_details = async () => {
-    const data = await get_interview_stats(usn);
-    if (data) setStudents(data);
-  };
+  useEffect(() => {
+    const get_details = async () => {
+      const data = await get_interview_stats(usn);
+      if (data) setStudents(data);
+    };
+    get_details();
+  }, [usn]);
 
-  const filterdCompanies = students.filter((student) => {
-    student.toLowerCase().includes(companyName.toLowerCase())
-  })
 
   return (
     <div>
