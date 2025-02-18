@@ -1,15 +1,15 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const url = 'https://hrcmqezcdkbmxgdfxxqo.supabase.co';
-const anon_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhyY21xZXpjZGtibXhnZGZ4eHFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4NTcwMTUsImV4cCI6MjA1NTQzMzAxNX0.vylGgJ5oJadZfTT5w_c816EIPCtp1Zpppe2PSu42qTw';
+const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 
 const supabase = createClient(url, anon_key);
 
 export default async function get_student_details() {
   const { data, error } = await supabase
-    .from('Interview_stats')
+    .from('interview_stats')
     .select();
 
   if (error) {
