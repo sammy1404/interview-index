@@ -21,8 +21,8 @@ export default function Student_display() {
   return (
     <div>
       <div className="student-info-container">
-        <p>{students[0]?.Name}</p>
-        <p>{students[0]?.USN}</p>
+        <p>{students[0]?.name}</p>
+        <p>{students[0]?.usn}</p>
       </div>
 
       <Input type="text" placeholder="USN" onChange={(e) => setUSN(e.target.value)}/>

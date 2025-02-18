@@ -8,9 +8,9 @@ const supabase = createClient(url, anon_key);
 
 const get_student_details = async (usn: string) => {
   const { data, error } = await supabase
-    .from('Student_info')
+    .from('student_info')
     .select()
-    .eq('USN', usn);
+    .eq('usn', usn);
 
   if (error) {
     console.error("Error fetching students: ", error);
