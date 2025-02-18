@@ -1,4 +1,6 @@
 "use client"
+import { Input } from "@/components/ui/input"
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { get_student_details } from '../server/student_retrieval'
@@ -22,7 +24,8 @@ export default function Student_display() {
         <p>{students[0]?.Name}</p>
         <p>{students[0]?.USN}</p>
       </div>
-      <input type="text" onChange={(e) => setUSN(e.target.value)} />
+
+      <Input type="text" placeholder="USN" onChange={(e) => setUSN(e.target.value)}/>
       <button onClick={get_details}>Load Student</button>
     </div>
   );
