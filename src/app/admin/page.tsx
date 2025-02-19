@@ -4,11 +4,13 @@ import "../../components/styles/page.css";
 import Student_display from "@/components/creativitiy/student_display";
 import Interview_display from "@/components/creativitiy/interview_display";
 import { UserButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";  // Import useRouter
 
 import { useState } from "react";
 
 export default function Home() {
   const [usn, setUSN] = useState("");
+  const router = useRouter();  // Initialize the router
 
   return (
     <div className="pl-5 pr-5 pt-5 flex flex-col gap-5">
@@ -39,6 +41,13 @@ export default function Home() {
           <Interview_display usn={usn} />
         </div>
       </div>
+      <button 
+          onClick={() => router.push("/admin/upload")}  
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+        >
+          Upload Data
+        </button>
+      
     </div>
   );
 }
