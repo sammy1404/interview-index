@@ -22,7 +22,7 @@ export default function Interview_display({ usn }: Props) {
   }, [usn]);
 
   return (
-    <div>
+    <div className="interview-container">
       <div className="interview-stats">
         {students
           .filter((student: any): any =>

@@ -1,6 +1,19 @@
+.interview-container {
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
 .interview-stats {
-  min-width: 10rem;
-  max-height: 44rem;
+  padding: 10px;
+  min-width: 80%;
+  min-height: 80%;
+  border: 2px solid hsl(var(--secondary));
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -16,9 +29,13 @@
 .company-container {
   padding: 10px;
   margin-bottom: 20px;
-  min-height: 20rem;
+  min-height: 15rem;
 
-  border: 2px solid white;
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--primary));
+
+  border: 2px solid hsl(var(--secondary));
+  border-radius: 5px;
 }
 
 .main-info {
@@ -27,4 +44,9 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+}
+
+.interview-container input {
+  padding-left: 5px;
+  border: 2px solid hsl(var(--secondary));
 }
