@@ -4,6 +4,8 @@ import { Poppins } from "next/font/google";
 import Student_display from "@/components/creativitiy/student_display";
 import Interview_display from "@/components/creativitiy/interview_display";
 import { UserButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";  // Import useRouter
+
 import { useState } from "react";
 import "../../components/styles/page.css"; // Ensure this exists
 import "../../app/globals.css"; // Ensure this exists
@@ -17,6 +19,7 @@ const poppins = Poppins({
 
 export default function Home() {
   const [usn, setUSN] = useState("");
+  const router = useRouter();  // Initialize the router
 
   return (
     <div
@@ -56,14 +59,15 @@ export default function Home() {
           <Interview_display usn={usn} />
         </div>
       </div>
-      <div className="flex justify-center">
-        <button
-          onClick={() => window.location.href = '/admin/upload'}
-          className="text-foreground py-2 px-4 rounded-md w-fit mb-10"
-        >
-          Go to Upload
-        </button>
+      <div className="flex w-full justify-center align-middle">
+        <button 
+            onClick={() => router.push("/admin/upload")}  
+            className="bg-accent text-white px-4 py-2 rounded-md hover:bg-muted-foreground transition mb-10"
+          >
+            Upload Data
+          </button>
       </div>
+
     </div>
   );
 }

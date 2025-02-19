@@ -1,6 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { Check, Cross, Arrow } from "../../../public/svg/components";
 import "../styles/interview_display.css";
 import { get_interview_stats } from "../server/interview_retrieval";
 import { useEffect, useState } from "react";
@@ -35,73 +36,129 @@ export default function Interview_display({ usn }: Props) {
             <div key={index} className="company-container">
               <div className="main-info">
                 <h2 className="text-xl">{student.company_name}</h2>
-                <p>Eligibility: {student.eligibility ? "✅" : "❌"}</p>
-                <p>Opt-In: {student.applied ? "✅" : "❌"}</p>
-                <p>Participated: {student.attended ? "✅" : "❌"}</p>
+                <p>
+                  Eligibility: {student.eligibility ? <Check /> : <Cross />}
+                </p>
+                <p>Opt-In: {student.applied ? <Check /> : <Cross />}</p>
+                <p>Participated: {student.attended ? <Check /> : <Cross />}</p>
               </div>
               <div className="interview_rounds">
                 <p className="round">
-                  {student.resume_screening === true
-                    ? "Resume Screening "
-                    : student.resume_screening === false
-                      ? "Resume Screening X"
-                      : null}
+                  {student.resume_screening === true ? (
+                    <>
+                      {" "}
+                      Resume Screening <Arrow />{" "}
+                    </>
+                  ) : student.resume_screening === false ? (
+                    <>
+                      {" "}
+                      Resume Screening <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
                 <p className="round">
-                  {student.aptitude === true
-                    ? "aptitude ->"
-                    : student.aptitude === false
-                      ? "aptitude X"
-                      : null}
+                  {student.aptitude === true ? (
+                    <>
+                      {" "}
+                      Aptitude <Arrow />{" "}
+                    </>
+                  ) : student.aptitude === false ? (
+                    <>
+                      {" "}
+                      Aptitude <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
                 <p className="round">
-                  {student.gd === true
-                    ? "GD ->"
-                    : student.gd === false
-                      ? "GD X"
-                      : null}
+                  {student.gd === true ? (
+                    <>
+                      {" "}
+                      GD <Arrow />{" "}
+                    </>
+                  ) : student.gd === false ? (
+                    <>
+                      {" "}
+                      GD <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
                 <p className="round">
-                  {student.technical_test === true
-                    ? "technical_test ->"
-                    : student.technical_test === false
-                      ? "technical_test X"
-                      : null}
+                  {student.technical_test === true ? (
+                    <>
+                      {" "}
+                      Technical Test <Arrow />{" "}
+                    </>
+                  ) : student.technical_test === false ? (
+                    <>
+                      {" "}
+                      Technical Test <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
                 <p className="round">
-                  {student.technical_interview_1 === true
-                    ? "Technical Interview: 1 ->"
-                    : student.technical_interview_1 === false
-                      ? "Technical Interview: 1 X"
-                      : null}
+                  {student.technical_interview_1 === true ? (
+                    <>
+                      {" "}
+                      Technical Interview: 1 <Arrow />{" "}
+                    </>
+                  ) : student.technical_interview_1 === false ? (
+                    <>
+                      {" "}
+                      Technical Interview: 1 <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
                 <p className="round">
-                  {student.technical_interview_2 === true
-                    ? "Technical Interview: 2 ->"
-                    : student.technical_interview_2 === false
-                      ? "Technical Interview: 2 X"
-                      : null}
+                  {student.technical_interview_2 === true ? (
+                    <>
+                      {" "}
+                      Technical Interview: 2 <Arrow />{" "}
+                    </>
+                  ) : student.technical_interview_2 === false ? (
+                    <>
+                      {" "}
+                      Technical Interview: 2 <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
                 <p className="round">
-                  {student.assignment === true
-                    ? "Assignment ->"
-                    : student.assignment === false
-                      ? "Assignment X"
-                      : null}
+                  {student.assignment === true ? (
+                    <>
+                      {" "}
+                      Assignment <Arrow />{" "}
+                    </>
+                  ) : student.assignment === false ? (
+                    <>
+                      {" "}
+                      Assignment <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
                 <p className="round">
-                  {student.managerial_round === true
-                    ? "Managerial_round ->"
-                    : student.managerial_round === false
-                      ? "Managerial_round X"
-                      : null}
+                  {student.managerial_round === true ? (
+                    <>
+                      {" "}
+                      Managerial Round <Arrow />{" "}
+                    </>
+                  ) : student.managerial_round === false ? (
+                    <>
+                      {" "}
+                      Managerial Round <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
                 <p className="round">
-                  {student.hr_round === true
-                    ? "HR Round ->"
-                    : student.hr_round === false
-                      ? "HR Round X"
-                      : null}
+                  {student.hr_round === true ? (
+                    <>
+                      {" "}
+                      HR Round <Arrow />{" "}
+                    </>
+                  ) : student.hr_round === false ? (
+                    <>
+                      {" "}
+                      HR Round <Cross />{" "}
+                    </>
+                  ) : null}
                 </p>
               </div>
             </div>
