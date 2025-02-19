@@ -1,10 +1,6 @@
 "use client"
 
-<<<<<<< HEAD
-import React, { useEffect } from 'react'
-=======
 import React, {useEffect } from 'react'
->>>>>>> dbb31c545c517cb82ef9bd96f8fef0c51576ac3b
 import Clerk from "@/components/ui/Clerk";
 import { useAuth } from '@clerk/clerk-react';
 
