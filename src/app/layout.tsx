@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
-import Clerk from '@/components/ui/Clerk'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 

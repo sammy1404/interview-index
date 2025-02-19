@@ -24,7 +24,7 @@ export default function Home() {
       style={{ backgroundColor: "hsl(var(--background))" }}
     >
       <header className="header">
-        <h1 style={{ color: "hsl(var(--foreground))" }}>Interview Index</h1>
+        <h1 className="text-foreground" style={{ color: "hsl(var(--foreground))" }}>Interview Index</h1>
         <nav className="nav">
           <ul className="nav-links">
             <li className="links" style={{ color: "hsl(var(--foreground))" }}>
@@ -55,6 +55,14 @@ export default function Home() {
         <div className="interview-display-container">
           <Interview_display usn={usn} />
         </div>
+      </div>
+      <div className="flex justify-center">
+        <button
+          onClick={() => window.location.href = '/admin/upload'}
+          className="text-foreground py-2 px-4 rounded-md w-fit mb-10"
+        >
+          Go to Upload
+        </button>
       </div>
     </div>
   );
