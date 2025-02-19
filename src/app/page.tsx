@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useAuth, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Clerk from "@/components/ui/Clerk";
 import { useAuth } from '@clerk/clerk-react';
 
