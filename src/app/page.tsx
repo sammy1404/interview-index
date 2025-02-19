@@ -3,6 +3,7 @@ import "../components/styles/page.css"
 
 import Student_display from '../components/creativitiy/student_display'
 import Interview_display from '@/components/creativitiy/interview_display';
+import Clerk from "@/components/ui/Clerk";
 
 import { useState } from 'react'
 
@@ -18,6 +19,7 @@ export default function Home() {
             <li className='links'>Student Details</li>
             <li className='links'>Company Entry</li>
             <li className='links'>Student Entry</li>
+            <Clerk />
           </ul>
         </nav>
       </header>
