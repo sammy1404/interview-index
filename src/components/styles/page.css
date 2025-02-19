@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid hsl(var(--secondary));
+  border-bottom: 2px solid hsl(var(--accent-foreground));
 }
 
 .header h1 {
