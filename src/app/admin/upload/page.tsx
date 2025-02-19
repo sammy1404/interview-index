@@ -4,7 +4,9 @@ const page = () => {
 
   return (
     <div>
-        
+        <Check />
+        <Cross />
+        <Arrow />
     </div>
   );
 }
