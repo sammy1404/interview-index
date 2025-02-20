@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 
 const isAdminRoute = createRouteMatcher(['/admin(.*)'])
 
-const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)"])
+// const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)"])
 
 export default clerkMiddleware(async (auth, req) => {
   // Protect all routes starting with `/admin`

@@ -4,7 +4,7 @@ import React, {useEffect } from 'react'
 import Clerk from "@/components/ui/Clerk";
 import { useAuth } from '@clerk/clerk-react';
 
-const page = () => {
+const Page = () => {
   const { isSignedIn } = useAuth();
 
   useEffect(() => {
@@ -21,4 +21,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
