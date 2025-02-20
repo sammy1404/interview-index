@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 type Props = {
   usn: string;
+  filters: {};
 };
 
 export default function Interview_display({ usn, filters }: Props) {
