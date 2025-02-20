@@ -6,9 +6,16 @@ import "../styles/interview_display.css";
 import { get_interview_stats } from "../server/interview_retrieval";
 import { useEffect, useState } from "react";
 
+type Filter = {
+  eligibility: string;
+  opt_in: string;
+  shortlisted: string;
+  participated: string;
+}
+
 type Props = {
   usn: string;
-  filters: {};
+  filters: Filter;
 };
 
 export default function Interview_display({ usn, filters }: Props) {
@@ -31,6 +38,12 @@ export default function Interview_display({ usn, filters }: Props) {
             student.company_name
               .toLowerCase()
               .includes(companyName.toLowerCase())
+            && 
+            Object.keys(filters).every((key) => {
+              if (filters[key as keyof Filter] == student[key]) {
+                return true;
+              }
+            })
           )
           .map((student, index) => (
             <div key={index} className="company-container">
