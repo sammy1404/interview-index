@@ -21,7 +21,7 @@ export default function Home() {
   const [usn, setUSN] = useState("");
   const router = useRouter();  // Initialize the router
 
-  var filters = {
+  const filters = {
     eligibility: null,
     optin: null,
     shortlisted: null,
@@ -29,7 +29,7 @@ export default function Home() {
   }
 
   function updateFilter(name: string, value: string) {
-    filter.name = value;
+    filters.name = value;
   }
 
 
