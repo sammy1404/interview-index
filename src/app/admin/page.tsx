@@ -21,8 +21,15 @@ export default function Home() {
   const [usn, setUSN] = useState("");
   const router = useRouter();  // Initialize the router
 
-  function updateFilter(value: string) {
-    console.log(value)
+  var filters = {
+    eligibility: null,
+    optin: null,
+    shortlisted: null,
+    participated: null,
+  }
+
+  function updateFilter(name: string, value: string) {
+    filter.name = value;
   }
 
 
@@ -65,13 +72,13 @@ export default function Home() {
               <input 
                 type="checkbox" 
                 id="eligibility-yes" 
-                value="eligibility yes" 
-                onChange={(e) => updateFilter(e.target.value)}/>Yes
+                value="eligibility true" 
+                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
               <input 
                 type="checkbox" 
                 id="eligibility-no" 
-                value="eligibility no" 
-                onChange={(e) => updateFilter(e.target.value)}/>No
+                value="eligibility false" 
+                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>No
             </div>
 
             <div className="filter-box">
@@ -80,12 +87,12 @@ export default function Home() {
                 type="checkbox" 
                 id="optin-yes" 
                 value="optin yes" 
-                onChange={(e) => updateFilter(e.target.value)}/>Yes
+                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
               <input 
                 type="checkbox" 
                 id="optin-no" 
                 value="optin no" 
-                onChange={(e) => updateFilter(e.target.value)}/>No
+                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>No
             </div>
 
             <div className="filter-box">
@@ -94,12 +101,12 @@ export default function Home() {
                 type="checkbox" 
                 id="shortlisted-yes" 
                 value="shortlisted yes" 
-                onChange={(e) => updateFilter(e.target.value)}/>Yes
+                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
               <input 
                 type="checkbox" 
                 id="shortlisted-no" 
                 value="shortlisted no" 
-                onChange={(e) => updateFilter(e.target.value)}/>No
+                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>No
             </div>
 
             <div className="filter-box">
@@ -108,18 +115,18 @@ export default function Home() {
                 type="checkbox" 
                 id="participated-yes" 
                 value="participated yes" 
-                onChange={(e) => updateFilter(e.target.value)}/>Yes
+                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
               <input 
                 type="checkbox" 
                 id="participated-no" 
                 value="participated no" 
-                onChange={(e) => updateFilter(e.target.value)}/>No
+                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>No
             </div>
           </div>
         </div>
 
         <div className="interview-display-container">
-          <Interview_display usn={usn} />
+          <Interview_display usn={usn} filters={filters}/>
         </div>
       </div>
       <div className="flex w-full justify-center align-middle">

@@ -10,14 +10,13 @@ type Props = {
   usn: string;
 };
 
-export default function Interview_display({ usn }: Props) {
+export default function Interview_display({ usn, filters }: Props) {
   const [students, setStudents] = useState<any[]>([]);
   const [companyName, setCompanyName] = useState("");
 
   useEffect(() => {
     const get_details = async () => {
       const data = await get_interview_stats(usn);
-      console.log(data);
       if (data) setStudents(data);
     };
     get_details();
