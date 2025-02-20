@@ -49,6 +49,7 @@
 .interview-container input {
   padding-left: 5px;
   border: 2px solid hsl(var(--secondary));
+background-color: hsl(var(--background));
 }
 
 .interview_rounds {
@@ -62,4 +63,10 @@
   display: flex;
   align-items: center;
   gap: 3px;
+}
+
+.filter-container {
+    height: 80%;
+    width: 40%;
+    border: 2px solid hsl(var(--secondary))
 }

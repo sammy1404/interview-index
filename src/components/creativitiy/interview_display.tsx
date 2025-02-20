@@ -58,6 +58,28 @@ export default function Interview_display({ usn }: Props) {
                   ) : null}
                 </>
                 <>
+                  {student.virtual === true ? (
+                    <p className="round">
+                      Virtual <Arrow />
+                    </p>
+                  ) : student.virtual === false ? (
+                    <p className="round">
+                      Virtual <Cross />
+                    </p>
+                  ) : null}
+                </>
+                <>
+                  {student.on_campus === true ? (
+                    <p className="round">
+                      On-Campus <Arrow />
+                    </p>
+                  ) : student.on_campus === false ? (
+                    <p className="round">
+                      On-Campus <Cross />
+                    </p>
+                  ) : null}
+                </>
+                <>
                   {student.aptitude === true ? (
                     <p className="round">
                       Aptitude <Arrow />
@@ -65,6 +87,28 @@ export default function Interview_display({ usn }: Props) {
                   ) : student.aptitude === false ? (
                     <p className="round">
                       Aptitude <Cross />
+                    </p>
+                  ) : null}
+                </>
+                <>
+                  {student.technical_mcq === true ? (
+                    <p className="round">
+                      Technical MCQ<Arrow />
+                    </p>
+                  ) : student.technical_mcq === false ? (
+                    <p className="round">
+                      Technical MCQ<Cross />
+                    </p>
+                  ) : null}
+                </>
+                <>
+                  {student.coding_1 === true ? (
+                    <p className="round">
+                      Coding: 1<Arrow />
+                    </p>
+                  ) : student.coding_1 === false ? (
+                    <p className="round">
+                      Coding: 1<Cross />
                     </p>
                   ) : null}
                 </>
@@ -80,13 +124,13 @@ export default function Interview_display({ usn }: Props) {
                   ) : null}
                 </>
                 <>
-                  {student.technical_test === true ? (
+                  {student.coding_2 === true ? (
                     <p className="round">
-                      Technical Test <Arrow />
+                      Coding: 2<Arrow />
                     </p>
-                  ) : student.technical_test === false ? (
+                  ) : student.coding_2 === false ? (
                     <p className="round">
-                      Technical Test <Cross />
+                      Coding: 2<Cross />
                     </p>
                   ) : null}
                 </>
@@ -142,6 +186,17 @@ export default function Interview_display({ usn }: Props) {
                   ) : student.hr_round === false ? (
                     <p className="round">
                       HR Round <Cross />
+                    </p>
+                  ) : null}
+                </>
+                <>
+                  {student.placed === true ? (
+                    <p className="round">
+                      Placed <Arrow />
+                    </p>
+                  ) : student.placed === false ? (
+                    <p className="round">
+                      Placed <Cross />
                     </p>
                   ) : null}
                 </>

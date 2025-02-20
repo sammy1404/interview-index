@@ -21,13 +21,18 @@ export default function Home() {
   const [usn, setUSN] = useState("");
   const router = useRouter();  // Initialize the router
 
+  function updateFilter(value: string) {
+    console.log(value)
+  }
+
+
   return (
     <div
       className={`pl-5 pr-5 pt-5 flex flex-col gap-5 ${poppins.variable}`} // Add the font variable
       style={{ backgroundColor: "hsl(var(--background))" }}
     >
       <header className="header">
-        <h1 className="text-foreground" style={{ color: "hsl(var(--foreground))" }}>Interview Index</h1>
+        <h1 className="text-foreground" style={{ color: "hsl(var(--foreground))" }}>Drive Metrics</h1>
         <nav className="nav">
           <ul className="nav-links">
             <li className="links" style={{ color: "hsl(var(--foreground))" }}>
@@ -53,6 +58,64 @@ export default function Home() {
       <div className="display-container">
         <div className="student-display-container">
           <Student_display usn={usn} />
+          <div className="filter-container">
+
+            <div className="filter-box">
+              <label htmlFor="eligibility-no">Eligibility:</label>
+              <input 
+                type="checkbox" 
+                id="eligibility-yes" 
+                value="eligibility yes" 
+                onChange={(e) => updateFilter(e.target.value)}/>Yes
+              <input 
+                type="checkbox" 
+                id="eligibility-no" 
+                value="eligibility no" 
+                onChange={(e) => updateFilter(e.target.value)}/>No
+            </div>
+
+            <div className="filter-box">
+              <label htmlFor="Optin-no">Opt-In:</label>
+              <input 
+                type="checkbox" 
+                id="optin-yes" 
+                value="optin yes" 
+                onChange={(e) => updateFilter(e.target.value)}/>Yes
+              <input 
+                type="checkbox" 
+                id="optin-no" 
+                value="optin no" 
+                onChange={(e) => updateFilter(e.target.value)}/>No
+            </div>
+
+            <div className="filter-box">
+              <label htmlFor="shortlisted-no">Short Listed:</label>
+              <input 
+                type="checkbox" 
+                id="shortlisted-yes" 
+                value="shortlisted yes" 
+                onChange={(e) => updateFilter(e.target.value)}/>Yes
+              <input 
+                type="checkbox" 
+                id="shortlisted-no" 
+                value="shortlisted no" 
+                onChange={(e) => updateFilter(e.target.value)}/>No
+            </div>
+
+            <div className="filter-box">
+              <label htmlFor="Optin-no">Participated:</label>
+              <input 
+                type="checkbox" 
+                id="participated-yes" 
+                value="participated yes" 
+                onChange={(e) => updateFilter(e.target.value)}/>Yes
+              <input 
+                type="checkbox" 
+                id="participated-no" 
+                value="participated no" 
+                onChange={(e) => updateFilter(e.target.value)}/>No
+            </div>
+          </div>
         </div>
 
         <div className="interview-display-container">
