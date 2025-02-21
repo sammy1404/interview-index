@@ -13,10 +13,15 @@
 }
 
 .nav-links {
-  width: 15em;
+  width: 10em;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.nav{
+  position: absolute;
+  right: 20px;
 }
 
 .links {
