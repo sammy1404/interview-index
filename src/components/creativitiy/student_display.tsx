@@ -23,12 +23,11 @@ export default function Student_display({ usn }: Props) {
   return (
     <div className="student-info">
       <div className="student-info-container">
-        <p>
-          Name: <span>{students[0]?.name}</span>{" "}
-        </p>
-        <p>
-          USN: <span>{students[0]?.usn}</span>{" "}
-        </p>
+        <div className="student-header">
+          <img src="../../../public/profile.svg" width={100} height={100} />
+          <p className="text-2xl">{students[0]?.name}</p>
+          <p className="text-lg">{students[0]?.usn}</p>
+        </div>
         <p>
           10th: <span>{students[0]?.tenth_percentage}</span>{" "}
         </p>

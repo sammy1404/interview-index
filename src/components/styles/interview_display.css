@@ -10,10 +10,10 @@
 }
 
 .interview-stats {
-  padding: 10px;
+  padding: 20px;
   width: 80%;
   height: 80%;
-  border: 2px solid hsl(var(--secondary));
+  border: 2px solid var(--border);
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -30,13 +30,20 @@
 .company-container {
   padding: 10px;
   margin-bottom: 20px;
-  min-height: 15rem;
+  min-height: 20rem;
 
-  background-color: hsl(var(--card));
-  color: hsl(var(--primary));
+  background-color: var(--card);
+  color: var(--primary);
 
-  border: 2px solid hsl(var(--secondary));
+  border: 2px solid var(--border);
   border-radius: 5px;
+
+  box-shadow: 10px 10px 20px 0 rgba(0, 0, 0, 0.200);
+  transition: all 0.2s ease-in-out;
+}
+.company-container:hover {
+  box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.400);
+  transform: scale(1.01)
 }
 
 .main-info {
@@ -46,28 +53,54 @@
   align-items: center;
   width: 100%;
 }
+.main-info h1 {
+  font-size: 2em;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.criteria-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
 
 .interview-container input {
-  padding-left: 5px;
-  border: 2px solid hsl(var(--secondary));
-background-color: hsl(var(--background));
+  height: 40px;
+  max-width: 200px;
+  padding: 0.875rem;
+  font-size: 1rem;
+  background-color: var(--foreground);
+  border: 1.5px solid var(--border);
+  border-radius: 0.5rem;
+  box-shadow: 2.5px 3px 0 var(--border);
+  outline: none;
+  transition: ease 0.25s;
 }
+
+.interview-container input:focus {
+  box-shadow: 5.5px 7px 0 black;
+}
+
 
 .interview_rounds {
   padding-top: 20px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
 }
 
 .round {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
 }
 
 .filter-container {
     height: 80%;
     width: 40%;
-    border: 2px solid hsl(var(--secondary))
+    border: 2px solid var(--secondary);
+    border-radius: 3px;
 }

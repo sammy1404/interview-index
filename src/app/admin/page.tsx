@@ -1,5 +1,6 @@
 "use client";
 
+
 import { Poppins } from "next/font/google";
 import Student_display from "@/components/creativitiy/student_display";
 import Interview_display from "@/components/creativitiy/interview_display";
@@ -59,14 +60,14 @@ export default function Home() {
 
   return (
     <div
-      className={`pl-5 flex flex-col gap-5 ${poppins.variable}`} // Add the font variable
-      style={{ backgroundColor: "hsl(var(--background))" }}
+      className={`flex flex-col gap-5 ${poppins.variable}`} // Add the font variable
+      style={{ backgroundColor: "var(--background)" }}
     >
       <header className="header">
-        <h1 className="text-foreground" style={{ color: "hsl(var(--foreground))" }}>Drive Metrics</h1>
+        <h1>DriveMetrics</h1>
         <nav className="nav">
           <ul className="nav-links">
-            <li className="links" style={{ color: "hsl(var(--foreground))" }}>
+            <li className="links" style={{ color: "var(--foreground)" }}>
             <button 
                 onClick={() => router.push("/admin/upload")}  
                 className="uploadLink"
@@ -74,7 +75,7 @@ export default function Home() {
                 Upload Data
               </button>
             </li>
-            <li className="links" style={{ color: "hsl(var(--foreground))"}}><UserButton /></li>
+            <li className="links" style={{ color: "var(--foreground)"}}><UserButton /></li>
           </ul>
         </nav>
       </header>

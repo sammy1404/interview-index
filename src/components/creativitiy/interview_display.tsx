@@ -6,6 +6,14 @@ import "../styles/interview_display.css";
 import { get_interview_stats } from "../server/interview_retrieval";
 import { useEffect, useState } from "react";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+
 type Filter = {
   eligibility: string | null;
   applied: string | null;
@@ -52,13 +60,35 @@ export default function Interview_display({ usn, filters }: Props) {
           .map((student, index) => (
             <div key={index} className="company-container">
               <div className="main-info">
-                <h2 className="text-xl">{student.company_name}</h2>
-                <p className="round">
-                  Eligibility: {student.eligibility ? <Check /> : <Cross />}
-                </p>
-                <p className="round">Opt-In: {student.applied ? <Check /> : <Cross />}</p>
-                <p className="round">Short Listed: {student.shortlisted ? <Check /> : <Cross />}</p>
-                <p className="round">Participated: {student.attended ? <Check /> : <Cross />}</p>
+                <h1>{student.company_name}</h1>
+                <div className="criteria-container">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger><p className="round">{student.eligibility ? <Check /> : <Cross />}</p></TooltipTrigger>
+                      <TooltipContent>
+                        <p>Elgibility</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger><p className="round">{student.applied ? <Check /> : <Cross />}</p></TooltipTrigger>
+                      <TooltipContent>
+                        <p>Applied</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger><p className="round">{student.shortlisted ? <Check /> : <Cross />}</p></TooltipTrigger>
+                      <TooltipContent>
+                        <p>Short Listed</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger><p className="round">{student.attended ? <Check /> : <Cross />}</p></TooltipTrigger>
+                      <TooltipContent>
+                        <p>Attended</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
               <>
               {student.eligibility ? (
@@ -226,7 +256,7 @@ export default function Interview_display({ usn, filters }: Props) {
       </div>
       <input
         onChange={(e) => setCompanyName(e.target.value)}
-        placeholder="Example: Google"
+        placeholder="Microsoft"
       ></input>
     </div>
   );
