@@ -3,6 +3,7 @@
 import { Poppins } from "next/font/google";
 import Student_display from "@/components/creativitiy/student_display";
 import Interview_display from "@/components/creativitiy/interview_display";
+import Chatbot from "@/components/creativitiy/chatbot";
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";  // Import useRouter
 
@@ -48,7 +49,7 @@ export default function Home() {
 
   return (
     <div
-      className={`pl-5 pr-5 pt-5 flex flex-col gap-5 ${poppins.variable}`} // Add the font variable
+      className={`pl-5 flex flex-col gap-5 ${poppins.variable}`} // Add the font variable
       style={{ backgroundColor: "hsl(var(--background))" }}
     >
       <header className="header">
@@ -56,20 +57,14 @@ export default function Home() {
         <nav className="nav">
           <ul className="nav-links">
             <li className="links" style={{ color: "hsl(var(--foreground))" }}>
-              Student Details
-            </li>
-            <li className="links" style={{ color: "hsl(var(--foreground))" }}>
-              Company Entry
-            </li>
-            <li className="links" style={{ color: "hsl(var(--foreground))" }}>
             <button 
                 onClick={() => router.push("/admin/upload")}  
-                className="bg-accent text-white px-4 py-2 rounded-md hover:bg-muted-foreground transition mb-10"
+                className="uploadLink"
               >
                 Upload Data
               </button>
             </li>
-            <UserButton />
+            <li className="links" style={{ color: "hsl(var(--foreground))"}}><UserButton /></li>
           </ul>
         </nav>
       </header>
@@ -156,6 +151,7 @@ export default function Home() {
           <Interview_display usn={usn} filters={filters}/>
         </div>
       </div>
+      <Chatbot />
     </div>
   );
 }

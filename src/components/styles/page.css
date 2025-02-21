@@ -1,4 +1,6 @@
 .header {
+  width: 100vw;
+  height: 10vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,8 +13,9 @@
 }
 
 .nav-links {
-  width: 30em;
+  width: 15em;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
@@ -35,10 +38,11 @@
 }
 
 .display-container {
-  width: 100%;
+  width: 100vw;
   height: 80vh;
 
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 30px;
@@ -47,8 +51,9 @@
 }
 
 .interview-display-container {
-  height: 90%;
-  width: 60%;
+  height: 80vh;
+  min-width: 30rem;
+  width: 60vw;
   position: relative;
 
   display: flex;
@@ -57,21 +62,21 @@
 }
 
 .student-display-container {
-  height: 90%;
-  width: 40%;
+  height: 80vh;
+  width: 35vw;
   position: relative;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 
 .filter-container {
   padding: 10px;
 
-  min-width: 30rem;
-  width: 40%;
+  min-width: 20rem;
+  width: 20rem;
   min-height: 15rem;
   height: 30%;
 
