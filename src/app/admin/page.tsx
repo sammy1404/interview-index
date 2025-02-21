@@ -62,12 +62,12 @@ export default function Home() {
               Company Entry
             </li>
             <li className="links" style={{ color: "hsl(var(--foreground))" }}>
-            <button 
+            <li 
                 onClick={() => router.push("/admin/upload")}  
-                className="bg-accent text-white px-4 py-2 rounded-md hover:bg-muted-foreground transition mb-10"
+                className="cursor-pointer"
               >
                 Upload Data
-              </button>
+              </li>
             </li>
             <UserButton />
           </ul>

@@ -154,7 +154,7 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
     {filteredData.map((item) => (
       <TableRow key={item.usn}>
         <TableCell>
-          <label className="flex items-center">
+          <label className="flex items-center ">
           <Checkbox
             checked={checkedItems[item.usn] || false}
             onCheckedChange={() => handleCheckboxChange(item.usn)}
