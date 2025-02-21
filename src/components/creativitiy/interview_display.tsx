@@ -36,14 +36,9 @@ export default function Interview_display({ usn, filters }: Props) {
       const filtered_list = students.filter((student: any) => {
         return Object.entries(filters).every(([key, value]) => {
           if (value === null) return true;
-          if (key === "company_name") {
-            return student.company_name.toLowerCase().includes(companyName?.toLowerCase());
-          }
           return student[key] === (value === "true" ? true : false);
-        });
+        }) && student.company_name.toLowerCase().includes(companyName.toLowerCase());
       });
-      console.log(filters)
-      console.log(filtered_list)
       setFilteredList(filtered_list);
     };
     update_filtered_list();
