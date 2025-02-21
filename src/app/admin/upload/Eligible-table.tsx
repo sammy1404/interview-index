@@ -16,9 +16,9 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
+  const [checkedItems, setCheckedItems] = useState<{ [usn: string]: boolean }>({});
   const [selectAll, setSelectAll] = useState(false);
-  const drive = company
+  const drive = company;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,75 +27,91 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
       else {
         setData(fetchedData || []);
         const initialCheckedState = fetchedData?.reduce((acc, item) => {
-          acc[item.id] = false;
+          acc[item.usn] = false; // Track state using `usn`
           return acc;
-        }, {} as { [key: string]: boolean });
+        }, {} as { [usn: string]: boolean });
         setCheckedItems(initialCheckedState);
       }
       setLoading(false);
     };
-    
+
     fetchData();
   }, []);
 
   if (loading) return <p>Loading...</p>;
 
-  const filteredData = data.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.usn.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = data.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.usn.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleCheckboxChange = (id: string) => {
+  const handleCheckboxChange = (usn: string) => {
     setCheckedItems((prev) => ({
       ...prev,
-      [id]: !prev[id],
+      [usn]: !prev[usn],
     }));
   };
 
   const handleSelectAll = () => {
     const newCheckedState = filteredData.reduce((acc, item) => {
-      acc[item.id] = !selectAll;
+      acc[item.usn] = !selectAll; // Use `usn`
       return acc;
-    }, {} as { [key: string]: boolean });
+    }, {} as { [usn: string]: boolean });
 
     setCheckedItems((prev) => ({ ...prev, ...newCheckedState }));
     setSelectAll(!selectAll);
   };
-
-  const submit = (event: React.FormEvent) => {
+  
+  const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
-    const selectedStudents = Object.keys(checkedItems).filter((id) => checkedItems[id]);
-    // console.log(selectedStudents) // ids
-    // console.log(drive) // company
-
-    const insertStudents = async (students: string[], drive: string) => {
-        console.log(students) // ids
-        console.log(drive) //drive
-        const { data, error } = await supabase
-        .from("interview_stats")
-        .insert(
-          students.map((studentId) => ({
-            id: studentId,
-            company_name: drive,  // Assuming `drive` holds the company name
-            eligibility: true, // Set eligibility to true
-          }))
-        );
-      
-      if (error) {
-        console.error("Error inserting data:", error);
-      } else {
-        console.log("Data inserted successfully:", data);
-      }
-    };
-
-    if (selectedStudents.length > 0) {
-      insertStudents(selectedStudents, drive);
-    } else {
+  
+    const selectedStudentUsns = Object.keys(checkedItems).filter((usn) => checkedItems[usn]);
+  
+    if (selectedStudentUsns.length === 0) {
       console.warn("No students selected for insertion.");
+      return;
     }
-    
+  
+    // Fetch all existing USNs in student_info
+    const { data: existingStudents, error: fetchError } = await supabase
+      .from("student_info")
+      .select("usn")
+      .in("usn", selectedStudentUsns);
+  
+    if (fetchError) {
+      console.error("Error fetching student_info:", fetchError);
+      return;
+    }
+  
+    // Extract only valid USNs
+    const validUsns = existingStudents?.map((student) => student.usn) || [];
+    const validStudentsData = selectedStudentUsns
+      .filter((usn) => validUsns.includes(usn))
+      .map((usn) => ({
+        usn,
+        company_name: drive,
+        eligibility: true,
+      }));
+  
+    if (validStudentsData.length === 0) {
+      console.warn("None of the selected USNs exist in student_info. Aborting insert.");
+      return;
+    }
+  
+    console.log("Inserting:", validStudentsData);
+  
+    const { data: insertedData, error: insertError } = await supabase
+      .from("interview_stats")
+      .insert(validStudentsData);
+  
+    if (insertError) {
+      console.error("Error inserting data:", insertError);
+    } else {
+      console.log("Data inserted successfully:", insertedData);
+    }
   };
+  
 
   return (
     <form onSubmit={submit}>
@@ -123,12 +139,12 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
         </thead>
         <tbody>
           {filteredData.map((item) => (
-            <tr key={item.id} className="border-2">
+            <tr key={item.usn} className="border-2">
               <td className="border-2 px-5">
                 <input
                   type="checkbox"
-                  checked={checkedItems[item.id] || false}
-                  onChange={() => handleCheckboxChange(item.id)}
+                  checked={checkedItems[item.usn] || false}
+                  onChange={() => handleCheckboxChange(item.usn)}
                 />
               </td>
               <td className="border-2 px-5">{item.name}</td>
