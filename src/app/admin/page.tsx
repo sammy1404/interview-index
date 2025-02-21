@@ -21,17 +21,22 @@ export default function Home() {
   const [usn, setUSN] = useState("");
   const router = useRouter();  // Initialize the router
 
-  const filters = {
+  const filters_obj: {[key: string]: string | null} = {
     eligibility: null,
-    optin: null,
+    opt_in: null,
     shortlisted: null,
     participated: null,
   }
+  const [filters, setFilter] = useState(filters_obj)
 
-  function updateFilter(name: string, value: string) {
-    filters.name = value;
+  function updateFilter(criteria: string, value: string) {
+    if (criteria in filters) {
+      setFilter((prevFilters) => ({
+        ...prevFilters,
+        [criteria]: value
+      }))
+    }
   }
-
 
   return (
     <div
@@ -70,57 +75,65 @@ export default function Home() {
             <div className="filter-box">
               <label htmlFor="eligibility-no">Eligibility:</label>
               <input 
-                type="checkbox" 
+                type="radio" 
+                name="eligibility"
                 id="eligibility-yes" 
-                value="eligibility true" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
+                value="true" 
+                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
               <input 
-                type="checkbox" 
+                type="radio" 
+                name="eligibility"
                 id="eligibility-no" 
-                value="eligibility false" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>No
+                value="false" 
+                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
             </div>
 
             <div className="filter-box">
               <label htmlFor="Optin-no">Opt-In:</label>
               <input 
-                type="checkbox" 
+                type="radio" 
+                name="opt_in"
                 id="optin-yes" 
-                value="optin yes" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
+                value="true" 
+                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
               <input 
-                type="checkbox" 
+                type="radio" 
+                name="opt_in"
                 id="optin-no" 
-                value="optin no" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>No
+                value="false" 
+                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
             </div>
 
             <div className="filter-box">
               <label htmlFor="shortlisted-no">Short Listed:</label>
               <input 
-                type="checkbox" 
+                type="radio" 
+                name="shortlisted"
                 id="shortlisted-yes" 
-                value="shortlisted yes" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
+                value="true" 
+                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
               <input 
-                type="checkbox" 
+                type="radio" 
+                name="shortlisted"
                 id="shortlisted-no" 
-                value="shortlisted no" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>No
+                value="false" 
+                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
             </div>
 
             <div className="filter-box">
               <label htmlFor="Optin-no">Participated:</label>
               <input 
-                type="checkbox" 
+                type="radio" 
+                name="participated"
                 id="participated-yes" 
-                value="participated yes" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
+                value="true" 
+                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
               <input 
-                type="checkbox" 
+                type="radio" 
+                name="participated"
                 id="participated-no" 
-                value="participated no" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>No
+                value="false" 
+                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
             </div>
           </div>
         </div>

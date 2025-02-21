@@ -7,10 +7,10 @@ import { get_interview_stats } from "../server/interview_retrieval";
 import { useEffect, useState } from "react";
 
 type Filter = {
-  eligibility: string;
-  opt_in: string;
-  shortlisted: string;
-  participated: string;
+  eligibility: string | null;
+  opt_in: string | null;
+  shortlisted: string | null;
+  participated: string | null;
 }
 
 type Props = {
@@ -21,6 +21,7 @@ type Props = {
 export default function Interview_display({ usn, filters }: Props) {
   const [students, setStudents] = useState<any[]>([]);
   const [companyName, setCompanyName] = useState("");
+  const [filteredList, setFilteredList] = useState<any[]>([])
 
   useEffect(() => {
     const get_details = async () => {
@@ -29,6 +30,22 @@ export default function Interview_display({ usn, filters }: Props) {
     };
     get_details();
   }, [usn]);
+
+  useEffect(() => {
+    const update_filtered_list = async () => {
+      const filtered_list = students.filter((student: any) => {
+          student.company_name
+            .toLowerCase()
+            .includes(companyName.toLowerCase())
+      });
+      setFilteredList(filtered_list);
+    };
+    update_filtered_list();
+  }, [filters]);
+
+
+
+
 
   return (
     <div className="interview-container">
