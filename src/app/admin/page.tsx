@@ -29,7 +29,7 @@ export default function Home() {
   }
 
   function updateFilter(name: string, value: string) {
-    filters.name = value;
+    filters.criteria = value;
   }
 
 
@@ -73,7 +73,7 @@ export default function Home() {
                 type="checkbox" 
                 id="eligibility-yes" 
                 value="eligibility true" 
-                onChange={(e) => updateFilter({name: e.target.name, value: e.target.value})}/>Yes
+                onChange={(e) => updateFilter({id: e.target.name, value: e.target.value})}/>Yes
               <input 
                 type="checkbox" 
                 id="eligibility-no" 
