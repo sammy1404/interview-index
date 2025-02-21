@@ -6,12 +6,14 @@ import { createClient } from "@supabase/supabase-js";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
+
+import { Checkbox } from "@/components/ui/checkbox"
+
   
 
 const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
@@ -136,37 +138,38 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>
+        <button className="font-bold" type="button" onClick={handleSelectAll}>
+          {selectAll ? "Deselect All" : "Select All"}
+        </button>
+      </TableHead>
+      <TableHead>Name</TableHead>
+      <TableHead>USN</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {filteredData.map((item) => (
+      <TableRow key={item.usn}>
+        <TableCell>
+          <label className="flex items-center">
+          <Checkbox
+            checked={checkedItems[item.usn] || false}
+            onCheckedChange={() => handleCheckboxChange(item.usn)}
+            />
 
-      <table className="border-2">
-        <thead>
-          <tr className="p-5">
-            <th className="border-2 px-2">
-              <button type="button" onClick={handleSelectAll}>
-                {selectAll ? "Deselect All" : "Select All"}
-              </button>
-            </th>
-            <th className="border-2">Name</th>
-            <th className="border-2">USN</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((item) => (
-            <tr key={item.usn} className="border-2">
-              <td className="border-2 px-5">
-                <input
-                  type="checkbox"
-                  checked={checkedItems[item.usn] || false}
-                  onChange={() => handleCheckboxChange(item.usn)}
-                />
-              </td>
-              <td className="border-2 px-5">{item.name}</td>
-              <td className="border-2 px-5">{item.usn}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          </label>
+        </TableCell>
+        <TableCell>{item.name}</TableCell>
+        <TableCell>{item.usn}</TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
 
-      <button type="submit">Submit</button>
+<button className="hover:bg-muted-foreground hover:text-primary-foreground text-ring px-5 py-2 rounded-md transition-all duration-300" type="submit">Submit</button>
     </form>
   );
 };

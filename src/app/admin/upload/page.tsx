@@ -18,7 +18,7 @@ const HomePage = () => {
     <div className="flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold text-center my-3">Upload Data</h1>
       <form onSubmit={(e) => { e.preventDefault(); }}>
-        <input className="bg-muted placeholder:text-input px-3 py-1 rounded-md" type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Enter company name" />
+        <input className="bg-muted placeholder:text-input px-3 py-1 rounded-md text-center" type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Enter company name" />
       </form>
       <div>
         <Eligibility company={company} />
