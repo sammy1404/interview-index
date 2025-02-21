@@ -18,17 +18,26 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
+// Define the Filter type
+type Filter = {
+  eligibility: string | null;
+  applied: string | null;
+  shortlisted: string | null;
+  attended: string | null;
+};
+
 export default function Home() {
   const [usn, setUSN] = useState("");
   const router = useRouter();  // Initialize the router
 
-  const filters_obj: {[key: string]: string | null} = {
+  // Initialize filters with the correct type
+  const filters_obj: Filter = {
     eligibility: null,
     applied: null,
     shortlisted: null,
     attended: null,
-  }
-  const [filters, setFilter] = useState(filters_obj)
+  };
+  const [filters, setFilter] = useState<Filter>(filters_obj); // Specify the type for useState
 
   function updateFilter(criteria: string, value: string) {
     if (criteria in filters) {
@@ -41,10 +50,11 @@ export default function Home() {
 
   const clearFilters = () => {
     const radioButtons = document.querySelectorAll('input[type="radio"]');
-        radioButtons.forEach((radio) => {
-            return (radio.checked = false);
-        });
-    setFilter(filters_obj)
+    radioButtons.forEach((radio) => {
+        const input = radio as HTMLInputElement; // Cast to HTMLInputElement
+        input.checked = false; // Now you can access the checked property
+    });
+    setFilter(filters_obj);
   };
 
   return (

@@ -2,13 +2,7 @@
 
 import { useState } from "react";
 
-import { createClient } from '@supabase/supabase-js';
 import Eligibility from "./Eligible-table";
-
-const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
-
-const supabase = createClient(url, anon_key);
 
 
 const HomePage = () => {

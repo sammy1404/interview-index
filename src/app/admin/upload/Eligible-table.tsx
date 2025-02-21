@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
@@ -35,7 +36,7 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let { data: fetchedData, error } = await supabase.from("student_info").select("*");
+      const { data: fetchedData, error } = await supabase.from("student_info").select("*");
       if (error) console.error("Error fetching data:", error);
       else {
         setData(fetchedData || []);
