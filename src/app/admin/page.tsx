@@ -23,9 +23,9 @@ export default function Home() {
 
   const filters_obj: {[key: string]: string | null} = {
     eligibility: null,
-    opt_in: null,
+    applied: null,
     shortlisted: null,
-    participated: null,
+    attended: null,
   }
   const [filters, setFilter] = useState(filters_obj)
 
@@ -37,6 +37,14 @@ export default function Home() {
       }))
     }
   }
+
+  const clearFilters = () => {
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach((radio) => {
+            return (radio.checked = false);
+        });
+    setFilter(filters_obj)
+  };
 
   return (
     <div
@@ -54,7 +62,12 @@ export default function Home() {
               Company Entry
             </li>
             <li className="links" style={{ color: "hsl(var(--foreground))" }}>
-              Student Entry
+            <button 
+                onClick={() => router.push("/admin/upload")}  
+                className="bg-accent text-white px-4 py-2 rounded-md hover:bg-muted-foreground transition mb-10"
+              >
+                Upload Data
+              </button>
             </li>
             <UserButton />
           </ul>
@@ -92,13 +105,13 @@ export default function Home() {
               <label htmlFor="Optin-no">Opt-In:</label>
               <input 
                 type="radio" 
-                name="opt_in"
+                name="applied"
                 id="optin-yes" 
                 value="true" 
                 onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
               <input 
                 type="radio" 
-                name="opt_in"
+                name="applied"
                 id="optin-no" 
                 value="false" 
                 onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
@@ -135,6 +148,7 @@ export default function Home() {
                 value="false" 
                 onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
             </div>
+            <button onClick={clearFilters}>Clear Filters</button>
           </div>
         </div>
 
@@ -142,15 +156,6 @@ export default function Home() {
           <Interview_display usn={usn} filters={filters}/>
         </div>
       </div>
-      <div className="flex w-full justify-center align-middle">
-        <button 
-            onClick={() => router.push("/admin/upload")}  
-            className="bg-accent text-white px-4 py-2 rounded-md hover:bg-muted-foreground transition mb-10"
-          >
-            Upload Data
-          </button>
-      </div>
-
     </div>
   );
 }

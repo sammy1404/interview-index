@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 
 type Filter = {
   eligibility: string | null;
-  opt_in: string | null;
+  applied: string | null;
   shortlisted: string | null;
-  participated: string | null;
+  attended: string | null;
 }
 
 type Props = {
@@ -34,34 +34,26 @@ export default function Interview_display({ usn, filters }: Props) {
   useEffect(() => {
     const update_filtered_list = async () => {
       const filtered_list = students.filter((student: any) => {
-          student.company_name
-            .toLowerCase()
-            .includes(companyName.toLowerCase())
+        return Object.entries(filters).every(([key, value]) => {
+          if (value === null) return true;
+          if (key === "company_name") {
+            return student.company_name.toLowerCase().includes(companyName?.toLowerCase());
+          }
+          return student[key] === (value === "true" ? true : false);
+        });
       });
+      console.log(filters)
+      console.log(filtered_list)
       setFilteredList(filtered_list);
     };
     update_filtered_list();
-  }, [filters]);
-
-
-
+  }, [filters, students, companyName]);
 
 
   return (
     <div className="interview-container">
       <div className="interview-stats">
-        {students
-          .filter((student: any): any =>
-            student.company_name
-              .toLowerCase()
-              .includes(companyName.toLowerCase())
-            && 
-            Object.keys(filters).every((key) => {
-              if (filters[key as keyof Filter] == student[key]) {
-                return true;
-              }
-            })
-          )
+        {filteredList
           .map((student, index) => (
             <div key={index} className="company-container">
               <div className="main-info">
