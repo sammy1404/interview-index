@@ -3,6 +3,17 @@
 import React, { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table"
+  
+
 const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
@@ -114,11 +125,12 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   
 
   return (
-    <form onSubmit={submit}>
-      <h2>Eligibility Information</h2>
-      <p>Company Name: {company}</p>
+    <form onSubmit={submit} className="h-[80vh] overflow-auto hide-scroller mt-5 flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
+
+      <h2>Scroll and select all eligible students</h2>
 
       <input
+        className="my-3 bg-muted placeholder:text-input text-sm px-3 py-1 rounded-md"
         type="text"
         placeholder="Search by name or USN"
         value={searchTerm}

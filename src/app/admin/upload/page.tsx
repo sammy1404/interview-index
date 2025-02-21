@@ -15,13 +15,15 @@ const HomePage = () => {
   const [company, setCompany] = useState<string>("");
 
   return (
-    <div>
-      <h1>Upload Data</h1>
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold text-center my-3">Upload Data</h1>
       <form onSubmit={(e) => { e.preventDefault(); }}>
-        <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Enter company name" />
-        <button type="submit">Submit</button>
+        <input className="bg-muted placeholder:text-input px-3 py-1 rounded-md" type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Enter company name" />
       </form>
-      <Eligibility company={company} />
+      <div>
+        <Eligibility company={company} />
+      </div>
+      
     </div>
   );
 };
