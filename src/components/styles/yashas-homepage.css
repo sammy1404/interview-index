@@ -1,0 +1,183 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Raleway:wght@300;500&display=swap');
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #F5E6CA; */
+    background: linear-gradient(to bottom, #FDF6E3, #F7E7CE);
+    color: #5A4A42;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+
+    left: 0;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+.login-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: #5A4A42;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+
+    /* Smooth transition */
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-button:hover {
+    background: #3E322B;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-button:active {
+    transform: scale(0.95);
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+.content {
+    margin-top: 50px;
+}
+h2 {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 1s ease-out forwards;
+
+}
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+h2 span {
+    color: #8D775F;
+}
+
+p {
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+    margin: 10px 0;
+}
+#typewriter-text::after {
+    content: "|";
+    display: inline-block;
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+
+/* This is for the cursor */
+/* body {
+    box-sizing: border-box;
+    padding: 0;
+    margin:0;
+    background-color: white;
+    height: 100vh;
+} */
+/*   
+.cursor {
+    pointer-events: none;
+    position: fixed;
+    display: block;
+    border-radius: 0;
+    mix-blend-mode: difference;
+    top: 0;
+    left: 1;
+    z-index: 9999999999999999;  
+}
+  
+.circle {
+      position: absolute;
+      display: block;
+      width: 21px;
+      height: 21px;
+      border-radius: 20px;
+      background-color: #faf6f6;
+} */
+
+/* the battery js api */
+
+.battery-container {
+    position: fixed;
+    bottom: 5px;  
+    left: 5px;  
+    font-size: 10px !important;  
+    font-weight: normal !important;  
+    font-family: 'Courier New', monospace; 
+    color: #302723; 
+    text-align: left;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+
+}
+
+.battery-container p {
+    color: #050505;
+    font-size: 14px;
+    margin: 1px 0;  
+    line-height: 1.2;  
+}
+
+#battery-level::before {
+    content: " [ ";
+}
+
+#battery-level::after {
+    content: " ]";
+}
+
+#charging-status::before {
+    content: " [ ";
+}
+
+#charging-status::after {
+    content: " ]";
+}
+
+.charging-true::after {
+    content: "In Progress ]";
+}
+
+.charging-false::after {
+    content: "Not Active ]";
+}
