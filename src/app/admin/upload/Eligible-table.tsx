@@ -128,7 +128,7 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   
 
   return (
-    <form onSubmit={submit} className="h-[80vh] overflow-auto hide-scroller mt-5 flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
+    <form onSubmit={submit} className="h-[80vh] overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
 
       <h2>Scroll and select all eligible students</h2>
 
