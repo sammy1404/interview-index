@@ -66,7 +66,7 @@ const Stats: React.FC<StatsProps> = ({ company }) => {
   }, [fetchEligibleStudents]);
 
   return (
-    <div className="flex flex-col items-center justify-center text-center border-2 border-accent-foreground p-4 rounded-xl ">
+    <div className="flex flex-col items-center justify-center text-center border-2 border-accent-foreground p-4 rounded-xl">
       <h2 className="text-lg font-semibold">Stats for {company}</h2>
       {loading ? (
         <p className="mt-4">Loading...</p>

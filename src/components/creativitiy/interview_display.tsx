@@ -92,7 +92,7 @@ export default function Interview_display({ usn, filters, companyName}: Props) {
               </div>
               <>
               {student.eligibility ? (
-                <div className="interview_rounds">
+                <div className="interview_rounds hide-scroller">
                 <>
                   {student.resume_screening === true ? (
                     <p className="round">
