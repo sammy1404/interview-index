@@ -11,11 +11,11 @@ const supabase = createClient(url, anon_key);
 
 // Define the type for the rounds
 type RoundsType = {
+  virtual: boolean | null;
+  on_campus: boolean | null;
   applied: boolean | null;
   shortlisted: boolean | null;
   attended: boolean | null;
-  virtual: boolean | null;
-  on_campus: boolean | null;
   resume_screening: boolean | null;
   aptitude: boolean | null;
   technical_mcq: boolean | null;
@@ -32,11 +32,11 @@ type RoundsType = {
 
 // Initialize the default rounds
 const defaultRounds: RoundsType = {
+  virtual: null,
+  on_campus: null,
   applied: null,
   shortlisted: null,
   attended: null,
-  virtual: null,
-  on_campus: null,
   resume_screening: null,
   aptitude: null,
   technical_mcq: null,
@@ -88,22 +88,22 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center text-center border-2 border-accent-foreground p-4 rounded-xl h-fit'>
+    <div className='flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl h-[350px]   overflow-auto hide-scroller'>
       <h2 className='text-sm'>Select the rounds in the drive</h2>
-      <p className='text-lg text-red-500'>Company Name: {company}</p>
+      <p className='text-lg text-red-400'>Company Name: {company}</p>
       
-      <div className='grid grid-cols-2 gap-2 mt-4'>
+      <div className='grid grid-cols-2 gap-2 p-5'>
         {Object.keys(rounds).map((round) => (
-          <label key={round} className='flex items-center gap-2'>
+          <label key={round} className='flex items-center gap-2 text-xs'>
             <Checkbox checked={rounds[round as keyof RoundsType] === true} onCheckedChange={() => toggleRound(round as keyof RoundsType)} />
-            <span className='capitalize'>{round.replace('_', ' ')}</span>
+            <span className='capitalize'>{round == 'gd'? 'Group Discussion':round.replace(/_/g, ' ')}</span>
           </label>
         ))}
       </div>
 
       <button
         onClick={handleSubmit}
-        className='mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-80 disabled:bg-gray-400'
+        className='mt-4 px-3 py-1 bg-primary text-white rounded-md hover:bg-opacity-80 disabled:bg-gray-400'
         disabled={loading}
       >
         {loading ? "Updating..." : "Submit"}

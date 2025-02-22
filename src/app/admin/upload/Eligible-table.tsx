@@ -1,5 +1,9 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+
 
 import React, { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
@@ -131,7 +135,7 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
     <form onSubmit={submit} className="h-[80vh] overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
 
       <h2>Scroll and select all eligible students</h2>
-
+      <div className="flex justify-around">
       <input
         className="my-3 bg-muted placeholder:text-input text-sm px-3 py-1 rounded-md"
         type="text"
@@ -139,6 +143,12 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+        <div className="grid items-center">
+        <Input id="picture" type="file" />
+        </div>
+
+      </div>
+
 <Table>
   <TableHeader>
     <TableRow>

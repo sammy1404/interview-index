@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import Eligibility from "./Eligible-table";
 import Rounds from "./Rounds";
-
+import Stats from "./Stats";
 
 const HomePage = () => {
   const [company, setCompany] = useState<string>("");
@@ -17,7 +17,10 @@ const HomePage = () => {
       </form>
       <div className="flex  mt-5 gap-6">
         <Eligibility company={company} />
-        <Rounds company={company} />
+        <div className="flex flex-col gap-6">
+          <Rounds company={company} />
+          <Stats company={company}/>
+        </div>
       </div>
       
     </div>
