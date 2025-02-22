@@ -30,6 +30,7 @@ type Filter = {
 export default function Home() {
   const [usn, setUSN] = useState("");
   const router = useRouter();  // Initialize the router
+  const [companyName, setCompanyName] = useState("");
 
   // Initialize filters with the correct type
   const filters_obj: Filter = {
@@ -67,29 +68,36 @@ export default function Home() {
         <h1>DriveMetrics</h1>
         <nav className="nav">
           <ul className="nav-links">
+            <li className="links">
+              <input
+                onChange={(e) => setUSN(e.target.value)}
+                placeholder="Example: 1NH22AI185"
+                className="usn-input"
+              />
+            </li>
             <li className="links" style={{ color: "var(--foreground)" }}>
-            <button 
+            <Button 
                 onClick={() => router.push("/admin/upload")}  
                 className="uploadLink"
               >
                 Upload Data
-              </button>
+              </Button>
             </li>
             <li className="links" style={{ color: "var(--foreground)"}}><UserButton /></li>
           </ul>
         </nav>
       </header>
 
-      <input
-        onChange={(e) => setUSN(e.target.value)}
-        placeholder="Example: 1NH22AI185"
-        className="usn-input"
-      />
 
       <div className="display-container">
         <div className="student-display-container">
           <Student_display usn={usn} />
           <div className="filter-container">
+            <input
+              onChange={(e) => setCompanyName(e.target.value)}
+              placeholder="Example: Microsoft"
+              className="company-input"
+            ></input>
 
             <div className="filter-box">
               <label htmlFor="eligibility-no">Eligibility:</label>
@@ -159,7 +167,7 @@ export default function Home() {
         </div>
 
         <div className="interview-display-container">
-          <Interview_display usn={usn} filters={filters}/>
+          <Interview_display usn={usn} filters={filters} companyName={companyName}/>
         </div>
       </div>
     </div>

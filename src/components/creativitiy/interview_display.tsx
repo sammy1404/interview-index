@@ -23,12 +23,12 @@ type Filter = {
 
 type Props = {
   usn: string;
+  companyName: string;
   filters: Filter;
 };
 
-export default function Interview_display({ usn, filters }: Props) {
+export default function Interview_display({ usn, filters, companyName}: Props) {
   const [students, setStudents] = useState<any[]>([]);
-  const [companyName, setCompanyName] = useState("");
   const [filteredList, setFilteredList] = useState<any[]>([])
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Interview_display({ usn, filters }: Props) {
         return Object.entries(filters).every(([key, value]) => {
           if (value === null) return true;
           return student[key] === (value === "true" ? true : false);
-        }) && student.company_name.toLowerCase().includes(companyName.toLowerCase());
+        }) && (!companyName || student.company_name?.toLowerCase().includes(companyName?.toLowerCase())); 
       });
       setFilteredList(filtered_list);
     };
@@ -254,10 +254,6 @@ export default function Interview_display({ usn, filters }: Props) {
             </div>
           ))}
       </div>
-      <input
-        onChange={(e) => setCompanyName(e.target.value)}
-        placeholder="Microsoft"
-      ></input>
     </div>
   );
 }
