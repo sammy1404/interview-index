@@ -8,16 +8,10 @@ type BotResponseType = {
   response: Record<string, string>;
 }
 
-type Props = {
-  usn: string,
-}
-
-export default function Chatbot( { usn }: Props ) {
+export default function Chatbot() {
   const [isOpen, setOpen] = useState(false);
   const [query, setQuery] = useState<string>("");
   const [botResponse, setBotResponse] = useState<BotResponseType | null>(null);
-
-  const modefiedQuery = `${query} of ${usn}`
 
   const fetchResponse = async() => {
     try {
@@ -26,7 +20,7 @@ export default function Chatbot( { usn }: Props ) {
         headers: { 
           "Content-Type": "application/json",
         },
-        body: JSON.stringify( { query: modefiedQuery } ),
+        body: JSON.stringify( { query } ),
       });
 
       const data: BotResponseType = await response.json();

@@ -65,7 +65,7 @@ export default function Home() {
       style={{ backgroundColor: "var(--background)" }}
     >
       <header className="header">
-        <h1>DriveMetrics</h1>
+        <h1>DriveMetrix</h1>
         <nav className="nav">
           <ul className="nav-links">
             <li className="links">
