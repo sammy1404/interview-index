@@ -1,15 +1,13 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import React, { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
-
 const supabase = createClient(url, anon_key);
 
-// Define the type for the rounds
 type RoundsType = {
   virtual: boolean | null;
   on_campus: boolean | null;
@@ -26,11 +24,11 @@ type RoundsType = {
   technical_interview_2: boolean | null;
   assignment: boolean | null;
   managerial_round: boolean | null;
-  hr_round: boolean;
-  placed: boolean;
+  hr_round: boolean | null;
+  placed: boolean | null;
 };
 
-// Initialize the default rounds
+// Default all rounds to `null`
 const defaultRounds: RoundsType = {
   virtual: null,
   on_campus: null,
@@ -47,8 +45,8 @@ const defaultRounds: RoundsType = {
   technical_interview_2: null,
   assignment: null,
   managerial_round: null,
-  hr_round: false,
-  placed: false,
+  hr_round: null,
+  placed: null,
 };
 
 interface RoundsProps {
@@ -59,21 +57,22 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
   const [rounds, setRounds] = useState<RoundsType>(defaultRounds);
   const [loading, setLoading] = useState(false);
 
-  // Toggle the state of a round
-  const toggleRound = (round: keyof RoundsType) => {
+  // Handle checkbox click
+  const handleCheckboxClick = (round: keyof RoundsType, checked: boolean) => {
+    const newValue = checked ? false : null; // Set false if checked, null if unchecked
     setRounds((prevRounds) => ({
       ...prevRounds,
-      [round]: prevRounds[round] === null ? false : !prevRounds[round],
+      [round]: newValue,
     }));
   };
 
-  // Submit function to update Supabase
+  // Handle submit
   const handleSubmit = async () => {
     setLoading(true);
 
     const { error } = await supabase
       .from("interview_stats")
-      .update({ ...rounds })
+      .update(rounds) // Update all rounds at once
       .eq("company_name", company);
 
     setLoading(false);
@@ -83,28 +82,30 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
       alert("Failed to update rounds!");
     } else {
       console.log("Rounds updated successfully!");
-      alert("Rounds updated successfully!");
     }
   };
 
   return (
-    <div className='flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl h-[350px]   overflow-auto hide-scroller'>
-      <h2 className='text-sm'>Select the rounds in the drive</h2>
-      <p className='text-lg text-red-400'>Company Name: {company}</p>
-      
-      <div className='grid grid-cols-2 gap-2 p-5'>
+    <div className="flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl h-fit w-fit overflow-auto hide-scroller">
+      <h2 className="text-sm">Select the rounds in the drive</h2>
+      <p className="text-lg text-red-400">Company Name: {company}</p>
+
+      <div className="grid grid-cols-2 gap-2 p-5">
         {Object.keys(rounds).map((round) => (
-          <label key={round} className='flex items-center gap-2 text-xs'>
-            <Checkbox checked={rounds[round as keyof RoundsType] === true} onCheckedChange={() => toggleRound(round as keyof RoundsType)} />
-            <span className='capitalize'>{round == 'gd'? 'Group Discussion':round.replace(/_/g, ' ')}</span>
+          <label key={round} className="flex items-center gap-2 text-sm">
+            <Checkbox
+              checked={rounds[round as keyof RoundsType] === false} // Only show ticked if false
+              onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
+            />
+            <span className="capitalize">{round === "gd" ? "Group Discussion" : round.replace(/_/g, " ")}</span>
           </label>
         ))}
       </div>
 
       <button
         onClick={handleSubmit}
-        className='mt-4 px-3 py-1 bg-primary text-white rounded-md hover:bg-opacity-80 disabled:bg-gray-400'
         disabled={loading}
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
       >
         {loading ? "Updating..." : "Submit"}
       </button>
