@@ -5,6 +5,14 @@ import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table";
 
 const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -127,7 +135,7 @@ const handleCheckboxChange = (usn: string, round: string) => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 border-2 rounded-lg flex flex-col items-center">
       {/* <h2 className="text-xl font-semibold mb-4">Eligible Students for {company}</h2> */}
 
       {submitted ? (
@@ -140,34 +148,40 @@ const handleCheckboxChange = (usn: string, round: string) => {
         <p>No eligible students with pending rounds found.</p>
       ) : (
         <>
-          <table className="min-w-full border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="border border-gray-300 px-4 py-2">USN</th>
-                <th className="border border-gray-300 px-4 py-2">Name</th>
-                <th className="border border-gray-300 px-4 py-2">Rounds</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((student) => (
-                <tr key={student.usn} className="border border-gray-300">
-                  <td className="border border-gray-300 px-4 py-2">{student.usn}</td>
-                  <td className="border border-gray-300 px-4 py-2">{student.name}</td>
-                  <td className="border border-gray-300 px-4 py-2 flex gap-2">
-                    {Object.keys(student.rounds).map((round) => (
-                      <label key={round} className="flex items-center space-x-2">
-                        <Checkbox
-                          checked={editedStudents[student.usn]?.[round] ?? false}
-                          onCheckedChange={() => handleCheckboxChange(student.usn, round)}
-                        />
-                        <span className="capitalize">{round.replace(/_/g, " ")}</span>
-                      </label>
-                    ))}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <Table>
+        <TableHeader>
+            <TableRow>
+            <TableHead>USN</TableHead>
+            <TableHead>Name</TableHead>
+            {/* Generate TableHead for each unique round */}
+            {Array.from(new Set(students.flatMap((s) => Object.keys(s.rounds)))).map((round) => (
+                <TableHead key={round} className="capitalize">{round.replace(/_/g, " ")}</TableHead>
+            ))}
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            {students.map((student) => (
+            <TableRow key={student.usn}>
+                <TableCell>{student.usn}</TableCell>
+                <TableCell>{student.name}</TableCell>
+                {/* Generate checkboxes for each round */}
+                {Array.from(new Set(students.flatMap((s) => Object.keys(s.rounds)))).map((round) => (
+                <TableCell key={round}>
+                    {student.rounds.hasOwnProperty(round) ? (
+                    <Checkbox
+                        checked={editedStudents[student.usn]?.[round] ?? false}
+                        onCheckedChange={() => handleCheckboxChange(student.usn, round)}
+                    />
+                    ) : (
+                    "-" // Show "-" if the student doesn't have this round
+                    )}
+                </TableCell>
+                ))}
+            </TableRow>
+            ))}
+        </TableBody>
+        </Table>
+
           <Button
             onClick={handleSubmit}
             className="mt-4"
