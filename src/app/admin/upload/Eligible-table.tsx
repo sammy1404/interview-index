@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import Stats from "./Stats";
 
 
 
@@ -132,7 +133,8 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center justify-center gap-5 mb-10">
+    <div className="flex gap-10">
           <form className="h-[80vh] overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
 
 <h2>Scroll and select all eligible students</h2>
@@ -183,7 +185,13 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
 
 
 </form>
+<Stats company={company}/>
+</div>
+<div>
 <button className="hover:bg-muted-foreground hover:text-primary-foreground text-ring px-5 py-2 rounded-md transition-all duration-300" onClick={submit}>Submit</button>
+
+</div>
+
 
 
     </div>
