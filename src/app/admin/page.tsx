@@ -1,9 +1,9 @@
 "use client";
 
-
 import { Poppins } from "next/font/google";
 import Student_display from "@/components/creativitiy/student_display";
 import Interview_display from "@/components/creativitiy/interview_display";
+import Chatbot from "@/components/creativitiy/chatbot";
 import { UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation";  // Import useRouter
@@ -65,7 +65,7 @@ export default function Home() {
       style={{ backgroundColor: "var(--background)" }}
     >
       <header className="header">
-        <h1>DriveMetrics</h1>
+        <h1>DriveMetrix</h1>
         <nav className="nav">
           <ul className="nav-links">
             <li className="links">
@@ -170,6 +170,7 @@ export default function Home() {
           <Interview_display usn={usn} filters={filters} companyName={companyName}/>
         </div>
       </div>
+      <Chatbot usn={usn}/>
     </div>
   );
 }
