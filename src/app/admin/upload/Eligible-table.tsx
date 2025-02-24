@@ -132,56 +132,61 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   
 
   return (
-    <form onSubmit={submit} className="h-[80vh] overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
+    <div className="flex flex-col">
+          <form className="h-[80vh] overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
 
-      <h2>Scroll and select all eligible students</h2>
-      <div className="flex justify-around">
-      <input
-        className="my-3 bg-muted placeholder:text-input text-sm px-3 py-1 rounded-md"
-        type="text"
-        placeholder="Search by name or USN"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-        <div className="grid items-center">
-        <Input id="picture" type="file" />
-        </div>
+<h2>Scroll and select all eligible students</h2>
+<div className="flex justify-around">
+<input
+  className="my-3 bg-muted placeholder:text-input text-sm px-3 py-1 rounded-md"
+  type="text"
+  placeholder="Search by name or USN"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+/>
+  <div className="grid items-center">
+  <Input id="picture" type="file" />
+  </div>
 
-      </div>
+</div>
 
 <Table>
-  <TableHeader>
-    <TableRow>
-      <TableHead>
-        <button className="font-bold" type="button" onClick={handleSelectAll}>
-          {selectAll ? "Deselect All" : "Select All"}
-        </button>
-      </TableHead>
-      <TableHead>Name</TableHead>
-      <TableHead>USN</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    {filteredData.map((item) => (
-      <TableRow key={item.usn}>
-        <TableCell>
-          <label className="flex items-center">
-          <Checkbox
-            checked={checkedItems[item.usn] || false}
-            onCheckedChange={() => handleCheckboxChange(item.usn)}
-            />
+<TableHeader>
+<TableRow>
+<TableHead>
+  <button className="font-bold" type="button" onClick={handleSelectAll}>
+    {selectAll ? "Deselect All" : "Select All"}
+  </button>
+</TableHead>
+<TableHead>Name</TableHead>
+<TableHead>USN</TableHead>
+</TableRow>
+</TableHeader>
+<TableBody>
+{filteredData.map((item) => (
+<TableRow key={item.usn}>
+  <TableCell>
+    <label className="flex items-center">
+    <Checkbox
+      checked={checkedItems[item.usn] || false}
+      onCheckedChange={() => handleCheckboxChange(item.usn)}
+      />
 
-          </label>
-        </TableCell>
-        <TableCell>{item.name}</TableCell>
-        <TableCell>{item.usn}</TableCell>
-      </TableRow>
-    ))}
-  </TableBody>
+    </label>
+  </TableCell>
+  <TableCell>{item.name}</TableCell>
+  <TableCell>{item.usn}</TableCell>
+</TableRow>
+))}
+</TableBody>
 </Table>
 
-<button className="hover:bg-muted-foreground hover:text-primary-foreground text-ring px-5 py-2 rounded-md transition-all duration-300" type="submit">Submit</button>
-    </form>
+
+</form>
+<button className="hover:bg-muted-foreground hover:text-primary-foreground text-ring px-5 py-2 rounded-md transition-all duration-300" onClick={submit}>Submit</button>
+
+
+    </div>
   );
 };
 
