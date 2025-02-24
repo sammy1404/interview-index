@@ -1,3 +1,11 @@
 .chatbot-container {
-  align-self:center;
+  height: 100vh;
+  width: 0vw;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.chatbot-container-clicked {
+  height: 100vh;
+  width: 50vw;
 }
