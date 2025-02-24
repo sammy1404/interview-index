@@ -77,16 +77,19 @@ const Stats: React.FC<StatsProps> = ({ company }) => {
 
   useEffect(() => {
     fetchEligibleStudents();
+    const intervalId = setInterval(fetchEligibleStudents, 1000); 
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
   }, [fetchEligibleStudents]);
 
   return (
-    <div className="flex flex-col items-center justify-center text-center border-2 border-accent-foreground p-4 rounded-xl">
+    <div className="flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl w-[350px]">
       <h2 className="text-lg font-semibold">Students eligible for: {company}</h2>
-      {loading ? (
+      {/* {loading ? (
         <p className="mt-4">Loading...</p>
       ) : students.length === 0 ? (
         <p className="mt-4 text-red-500">No eligible students found.</p>
-      ) : (
+      ) : ( */}
         <Table>
           <TableHeader>
             <TableRow>
@@ -107,7 +110,7 @@ const Stats: React.FC<StatsProps> = ({ company }) => {
             ))}
           </TableBody>
         </Table>
-      )}
+      {/* )} */}
     </div>
   );
 };
