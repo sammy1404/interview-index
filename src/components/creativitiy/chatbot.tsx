@@ -8,16 +8,10 @@ type BotResponseType = {
   response: Record<string, string>;
 }
 
-type Props = {
-  usn: string,
-}
-
-export default function Chatbot( { usn }: Props ) {
+export default function Chatbot() {
   const [isOpen, setOpen] = useState(false);
   const [query, setQuery] = useState<string>("");
   const [botResponse, setBotResponse] = useState<BotResponseType | null>(null);
-
-  const modefiedQuery = `${query} of ${usn}`
 
   const fetchResponse = async() => {
     try {
@@ -26,7 +20,7 @@ export default function Chatbot( { usn }: Props ) {
         headers: { 
           "Content-Type": "application/json",
         },
-        body: JSON.stringify( { query: modefiedQuery } ),
+        body: JSON.stringify( { query } ),
       });
 
       const data: BotResponseType = await response.json();
@@ -41,8 +35,8 @@ export default function Chatbot( { usn }: Props ) {
     <>
       <div className={`flex justify-center items-center flex-col gap-5 fixed top-0 right-2 h-screen bg-background
       border-l-4 border-black shadow-lg transition-all duration-300 
-      ease-in-out ${isOpen ? "w-[40vw]" : "w-0 overflow-hidden border-l-0"}`}>
-        <div className="w-[30vw] h-[50vh] relative p-2 border-4 border-black rounded-md bg-white transition-all duration-300 overflow-scroll">
+      ease-in-out ${isOpen ? "w-[40vw]" : "w-0 overflow-hidden"}`}>
+        <div className="w-[30vw] h-[50vh] p-2 border-4 border-black rounded-md bg-white transition-all duration-300 overflow-scroll">
           {botResponse? Object.entries(botResponse.response).map(([company, message]) => (
             <div key={company} className='mb-2 p-2 border rounded-sm'>
               <h3 className="font-bold">{company}</h3>
