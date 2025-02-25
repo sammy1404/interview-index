@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/table";
 
 import { Checkbox } from "@/components/ui/checkbox";
-
+import StudentAnalysis from "./StudentAnalysis";
+import Rounds from "./Rounds";
 const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
@@ -101,8 +102,9 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   };
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center gap-5 mb-10">
+    <div className="flex-col items-center">
+      <div className="flex gap-10">
+        <div className="flex flex-col items-center justify-center gap-5 mb-10">
         <div className="flex gap-10">
           <form className="h-[80vh] overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
             <h2>Scroll and select all eligible students</h2>
@@ -166,6 +168,7 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
           </button>
         </div>
       </div>
+
       <div className="h-[80vh] overflow-scroll flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl w-[350px]">
         <h2 className="text-lg font-semibold">Students being updated for: {company}</h2>
         <Table>
@@ -188,7 +191,14 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
           </TableBody>
         </Table>
       </div>
-    </>
+        
+      </div>
+      <div className="flex gap-10">
+        <Rounds />
+        
+      </div>
+      <StudentAnalysis checkedItems={checkedItems}/>
+    </div>
   );
 };
 
