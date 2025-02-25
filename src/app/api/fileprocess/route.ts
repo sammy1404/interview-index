@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import * as XLSX from 'xlsx';
 
 const checkUsnHandler = (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
+  if (req.method == 'POST') {
     const file = req.body.file;
     if (!file) {
       return res.status(400).json({ error: 'No file uploaded' });

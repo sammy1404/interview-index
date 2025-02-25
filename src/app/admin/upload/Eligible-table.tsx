@@ -92,7 +92,7 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
     formData.append('file', file);
 
     const response = await fetch("/api/fileprocess", {
-      method:  "POST",
+      method:  'POST',
       body: formData
     })
 
