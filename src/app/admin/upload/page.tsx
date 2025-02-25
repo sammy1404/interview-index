@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import Eligibility from "./Eligible-table";
-import Stats from "./Stats";
 
 const HomePage = () => {
   const [company, setCompany] = useState<string>("");
@@ -17,7 +16,6 @@ const HomePage = () => {
       <div className="flex mt-5 gap-6">
         <Eligibility company={company} />
       </div>
-      
     </div>
   );
 };
