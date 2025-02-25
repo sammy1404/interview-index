@@ -5,15 +5,17 @@ import { useState } from "react"
 import ReactMarkdown from "react-markdown";
 
 type BotResponseType = {
-  response: Record<string, string>;
+  response: string;
 }
 
 export default function Chatbot() {
   const [isOpen, setOpen] = useState(false);
   const [query, setQuery] = useState<string>("");
   const [botResponse, setBotResponse] = useState<BotResponseType | null>(null);
+  const [isLoading, setLoading] = useState<Boolean>(false);
 
   const fetchResponse = async() => {
+    setLoading(true);
     try {
       const response = await fetch("/api/rag", {
         method: "POST",
@@ -25,10 +27,12 @@ export default function Chatbot() {
 
       const data: BotResponseType = await response.json();
       setBotResponse(data);
+      setLoading(false);
     }
     catch (error) {
       console.error("Error fetching data: ", error);
-    };
+    }
+
   }
 
   return (
@@ -37,11 +41,11 @@ export default function Chatbot() {
       border-l-4 border-black shadow-lg transition-all duration-300 
       ease-in-out ${isOpen ? "w-[40vw]" : "w-0 overflow-hidden"}`}>
         <div className="w-[30vw] h-[50vh] p-2 border-4 border-black rounded-md bg-white transition-all duration-300 overflow-scroll">
-          {botResponse? Object.entries(botResponse.response).map(([company, message]) => (
+          {botResponse? Object.entries(botResponse).map(([company, message]) => (
             <div key={company} className='mb-2 p-2 border rounded-sm'>
               <h3 className="font-bold">{company}</h3>
               <ReactMarkdown>
-                {message}
+                {isLoading ? "Loading..." : message}
               </ReactMarkdown>
             </div>
           )): ""}
