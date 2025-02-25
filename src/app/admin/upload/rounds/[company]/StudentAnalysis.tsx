@@ -1,5 +1,6 @@
 "use client";
 
+// import "../../../../../app/globals.css"
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -24,6 +25,7 @@ type Student = {
   rounds: { [key: string]: boolean };
 };
 
+
 const StudentAnalysis = () => {
   const { company } = useParams();
   const [students, setStudents] = useState<Student[]>([]);
@@ -31,6 +33,22 @@ const StudentAnalysis = () => {
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const selectAll = (round: string) => {
+    setEditedStudents((prev) => {
+      const allSelected = students.every((student) => prev[student.usn]?.[round] ?? false);
+  
+      return students.reduce((acc, student) => {
+        acc[student.usn] = {
+          ...prev[student.usn],
+          [round]: !allSelected, // Toggle all checkboxes in this round
+        };
+        return acc;
+      }, { ...prev });
+    });
+  };
+  
+  
 
   const fetchStudents = async () => {
     if (!company || isSubmitting) return; // Prevent fetching during submission
@@ -147,40 +165,51 @@ const handleCheckboxChange = (usn: string, round: string) => {
       students.length === 0 ? (
         <p>No eligible students with pending rounds found.</p>
       ) : (
-        <>
-        <Table>
-        <TableHeader>
-            <TableRow>
-            <TableHead>USN</TableHead>
-            <TableHead>Name</TableHead>
-            {/* Generate TableHead for each unique round */}
-            {Array.from(new Set(students.flatMap((s) => Object.keys(s.rounds)))).map((round) => (
-                <TableHead key={round} className="capitalize">{round.replace(/_/g, " ")}</TableHead>
-            ))}
-            </TableRow>
-        </TableHeader>
-        <TableBody>
-            {students.map((student) => (
-            <TableRow key={student.usn}>
-                <TableCell>{student.usn}</TableCell>
-                <TableCell>{student.name}</TableCell>
-                {/* Generate checkboxes for each round */}
-                {Array.from(new Set(students.flatMap((s) => Object.keys(s.rounds)))).map((round) => (
-                <TableCell key={round}>
-                    {student.rounds.hasOwnProperty(round) ? (
-                    <Checkbox
-                        checked={editedStudents[student.usn]?.[round] ?? false}
-                        onCheckedChange={() => handleCheckboxChange(student.usn, round)}
-                    />
-                    ) : (
-                    "-" // Show "-" if the student doesn't have this round
-                    )}
-                </TableCell>
+        <div className=" scroll-auto flex flex-col items-center w-[80vw] hide-scroller">
+            <Table className="hide-scroller">
+            <TableHeader className="gap-5">
+                <TableRow>
+                <TableHead>USN</TableHead>
+                <TableHead>Name</TableHead>
+                {Array.from(new Set(students.flatMap((s) => Object.keys(s.rounds)))).map((round) => {
+                    const allSelected = students.every((student) => editedStudents[student.usn]?.[round] ?? false);
+                    return (
+                    <TableHead key={round} className="capitalize">
+                        <div className="flex items-center gap-2">
+                        
+                        <Checkbox
+                            checked={allSelected}
+                            onCheckedChange={() => selectAll(round)}
+                        />
+                        <p className="font-bold text-foreground pr-5">{round.replace(/_/g, " ")}</p>
+                        </div>
+                    </TableHead>
+                    );
+                })}
+                </TableRow>
+            </TableHeader>
+            <TableBody className="hide-scroller">
+                {students.map((student) => (
+                <TableRow key={student.usn}>
+                    <TableCell>{student.usn}</TableCell>
+                    <TableCell>{student.name}</TableCell>
+                    {Array.from(new Set(students.flatMap((s) => Object.keys(s.rounds)))).map((round) => (
+                    <TableCell key={round}>
+                        {student.rounds.hasOwnProperty(round) ? (
+                        <Checkbox
+                            checked={editedStudents[student.usn]?.[round] ?? false}
+                            onCheckedChange={() => handleCheckboxChange(student.usn, round)}
+                        />
+                        ) : (
+                        "-" // If the student doesn't have this round
+                        )}
+                    </TableCell>
+                    ))}
+                </TableRow>
                 ))}
-            </TableRow>
-            ))}
-        </TableBody>
-        </Table>
+            </TableBody>
+            </Table>
+
 
           <Button
             onClick={handleSubmit}
@@ -189,7 +218,7 @@ const handleCheckboxChange = (usn: string, round: string) => {
           >
             {isSubmitting ? "Submitting..." : "Submit Changes"}
           </Button>
-        </>
+        </div>
       )}
     </div>
   );
