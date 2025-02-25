@@ -1,5 +1,6 @@
 "use client";
 
+// import "../../../../../app/globals.css"
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -164,8 +165,8 @@ const handleCheckboxChange = (usn: string, round: string) => {
       students.length === 0 ? (
         <p>No eligible students with pending rounds found.</p>
       ) : (
-        <div className=" scroll-auto flex flex-col items-center">
-            <Table>
+        <div className=" scroll-auto flex flex-col items-center w-[80vw] hide-scroller">
+            <Table className="hide-scroller">
             <TableHeader className="gap-5">
                 <TableRow>
                 <TableHead>USN</TableHead>
@@ -187,7 +188,7 @@ const handleCheckboxChange = (usn: string, round: string) => {
                 })}
                 </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="hide-scroller">
                 {students.map((student) => (
                 <TableRow key={student.usn}>
                     <TableCell>{student.usn}</TableCell>
