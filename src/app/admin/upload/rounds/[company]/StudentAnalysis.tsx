@@ -89,7 +89,9 @@ const StudentAnalysis = () => {
         usn,
         name: student ? student.name : "Unknown", // Access name safely
         rounds: Object.fromEntries(
-          Object.entries(rounds).filter(([key]) => key !== "usn" && key !== "company_name")
+          Object.entries(rounds)
+          .filter(([key]) => key !== "usn" && key !== "company_name")
+          .map(([key, value]) => [key, Boolean(value)])
         ),
       };
     });
