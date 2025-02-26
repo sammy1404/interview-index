@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "../styles/student_display.css";
 
-import { get_student_details } from "../server/student_retrieval";
+import { get_student_details } from "../../lib/supabase/services/student_analysis";
 import { useEffect, useState } from "react";
 
 type Props = {

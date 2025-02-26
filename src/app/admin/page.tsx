@@ -27,7 +27,7 @@ type Filter = {
   attended: string | null;
 };
 
-export default function Home() {
+export default function Admin() {
   const [usn, setUSN] = useState("");
   const router = useRouter();  // Initialize the router
   const [companyName, setCompanyName] = useState("");
@@ -170,7 +170,7 @@ export default function Home() {
           <Interview_display usn={usn} filters={filters} companyName={companyName}/>
         </div>
       </div>
-      <Chatbot usn={usn}/>
+      <Chatbot />
     </div>
   );
 }

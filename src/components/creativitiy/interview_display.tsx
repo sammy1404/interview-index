@@ -3,7 +3,7 @@
 
 import { Check, Cross, Arrow } from "../../../public/svg/components";
 import "../styles/interview_display.css";
-import { get_interview_stats } from "../server/interview_retrieval";
+import { get_interview_stats } from "../../lib/supabase/services/student_analysis";
 import { useEffect, useState } from "react";
 
 import {
