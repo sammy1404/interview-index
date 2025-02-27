@@ -80,7 +80,7 @@ const fetchEligibleStudents = useCallback(async () => {
   useEffect(() => {
     fetchEligibleStudents();
 
-  }, [company, fetchEligibleStudents],);
+  }, [company],);
 
   return (
     <div className="flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl w-full h-1/2">

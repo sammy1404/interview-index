@@ -1,7 +1,5 @@
 "use client";
 
-// @typescript-eslint/no-explicit-any
-
 import { useRouter } from "next/navigation"; 
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@supabase/supabase-js";
@@ -215,25 +213,24 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-5 mb-10 w-screen">
-      <div className="flex gap-10 flex-with w-full px-10">
-        <form className="max-h-screen overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl w-full">
+    <div className="flex flex-col items-center justify-center gap-5 mb-10">
+      <div className="flex gap-10">
+        <form className="h-[80vh] overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl">
           <h2>Scroll and select all eligible students</h2>
-          <div className="flex justify-around h-fit mt-5">
-            <Input
+          <div className="flex justify-around">
+            <input
+              className="my-3 bg-muted placeholder:text-input text-sm px-3 py-1 rounded-md"
               type="text"
               placeholder="Search by name or USN"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-fit"
             />
-            <div className="flex items-center gap-2 w-fit">
+            <div className="grid items-center gap-2">
               <Input 
                 id="picture" 
                 type="file" 
                 accept=".xlsx, .xls"
-                onChange={handleFileChange}
-                className="w-fit" 
+                onChange={handleFileChange} 
               />
               <Button
                 variant="default"
@@ -280,11 +277,11 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
             </TableBody>
           </Table>
         </form>
-        <div className="flex flex-col gap-4 min-w-fit w-1/2">
+        <div className="flex flex-col gap-4">
           <Stats company={company} />
           
           {/* Selected Students Box */}
-          <div className="border-2 border-accent-foreground p-4 rounded-xl w-full h-1/2">
+          <div className="border-2 border-accent-foreground p-4 rounded-xl w-80">
             <h3 className="font-semibold text-center mb-3">Selected Students ({selectedStudents.length})</h3>
             <div className="h-[30vh] overflow-y-auto pr-2 hide-scroller">
               {selectedStudents.length > 0 ? (

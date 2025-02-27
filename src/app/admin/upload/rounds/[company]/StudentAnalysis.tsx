@@ -1,6 +1,5 @@
 "use client";
 
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -46,6 +45,7 @@ const StudentAnalysis = () => {
   const [file, setFile] = useState<File | null>(null);
   const [fileLoading, setFileLoading] = useState(false);
   const [notFoundUsns, setNotFoundUsns] = useState<string[]>([]);
+  const [processedStudents, setProcessedStudents] = useState<Set<string>>(new Set());
 
   // Function to select all students for a specific round
   const selectAll = (round: string) => {
@@ -114,7 +114,6 @@ const StudentAnalysis = () => {
         const rounds = Object.fromEntries(
           Object.entries(companyRecord)
           .filter(([key]) => !excludedColumns.includes(key))
-          .map((key) => [Boolean(key)])
         );
         setCompanyRounds(rounds);
       }
@@ -126,7 +125,6 @@ const StudentAnalysis = () => {
         .eq("company_name", company)
         .eq("eligibility", true);
 
-        console.log(typeof(interviewData?.coding_2))
 
       if (interviewError) {
         console.error("Error fetching interview stats:", interviewError);
@@ -154,6 +152,9 @@ const StudentAnalysis = () => {
         return;
       }
 
+      // Get the current set of student USNs we've already processed
+      const currentProcessedUsns = new Set(processedStudents);
+      
       // Merge the data
       const mergedData = interviewData.map((interview) => {
         const { usn } = interview;
@@ -165,6 +166,9 @@ const StudentAnalysis = () => {
             .filter(([key]) => !excludedColumns.includes(key))
         );
 
+        // Add this student to our processed set
+        currentProcessedUsns.add(usn);
+
         return {
           usn,
           name: student ? student.name : "Unknown",
@@ -172,24 +176,19 @@ const StudentAnalysis = () => {
         };
       });
 
+      // Update the set of students we've seen
+      setProcessedStudents(currentProcessedUsns);
       setStudents(mergedData);
       setFilteredStudents(mergedData);
       
-      // Initialize edited students with existing data
-      const initialEditState = mergedData.reduce((acc, student) => {
-        // Only include non-null round fields
-        const editableRounds = Object.entries(student.rounds)
-          .filter(([_, value]) => value !== null)
-          .reduce((obj, [key, value]) => {
-            obj[key] = value as boolean;
-            return obj;
-          }, {} as { [key: string]: boolean });
-        
-        acc[student.usn] = editableRounds;
-        return acc;
-      }, {} as { [usn: string]: { [round: string]: boolean } });
-      
-      setEditedStudents(initialEditState);
+      // Don't reset editedStudents entirely, as we might have pending changes
+      // Just make sure we're not tracking non-existent students
+      setEditedStudents(prev => {
+        const existingUsns = new Set(mergedData.map(s => s.usn));
+        return Object.fromEntries(
+          Object.entries(prev).filter(([usn]) => existingUsns.has(usn))
+        );
+      });
     } catch (e) {
       console.error("Error in fetchStudents:", e);
     } finally {
@@ -218,11 +217,11 @@ const StudentAnalysis = () => {
   }, [searchQuery, students]);
 
   const handleCheckboxChange = (usn: string, round: string) => {
-    // Skip excluded columns and null rounds
+    // Skip excluded columns but allow changing null rounds
     if (excludedColumns.includes(round)) return;
     
     const student = students.find(s => s.usn === usn);
-    if (!student || student.rounds[round] === null) return;
+    if (!student) return;
     
     setEditedStudents((prev) => {
       const newState = { ...prev };
@@ -231,9 +230,10 @@ const StudentAnalysis = () => {
         newState[usn] = {};
       }
       
-      const currentValue = newState[usn][round] !== undefined 
+      // Get current value with proper fallback
+      const currentValue = newState[usn]?.[round] !== undefined 
         ? newState[usn][round] 
-        : student.rounds[round] as boolean;
+        : student.rounds[round] === true;
       
       newState[usn] = {
         ...newState[usn],
@@ -260,18 +260,28 @@ const StudentAnalysis = () => {
         if (!student) continue;
 
         // Only include rounds that aren't null in the original data
+        // AND only include rounds that have actually been edited
         const updateObj = Object.entries(editedStudents[usn])
-          .filter(([key]) => student.rounds[key] !== null)
+          .filter(([key]) => {
+            // Only update rounds that:
+            // 1. Are valid for this student (not null)
+            // 2. Have actually changed from their original value
+            return student.rounds[key] !== null && 
+                   editedStudents[usn][key] !== student.rounds[key];
+          })
           .reduce((obj, [key, value]) => {
             obj[key] = value;
             return obj;
           }, {} as Record<string, boolean>);
         
-        await supabase
-          .from("interview_stats")
-          .update(updateObj)
-          .eq("usn", usn)
-          .eq("company_name", company);
+        // Only update if there are actual changes
+        if (Object.keys(updateObj).length > 0) {
+          await supabase
+            .from("interview_stats")
+            .update(updateObj)
+            .eq("usn", usn)
+            .eq("company_name", company);
+        }
       }
       
       setSubmitted(true);
@@ -290,40 +300,29 @@ const StudentAnalysis = () => {
   };
 
   const isRoundChecked = (student: Student, round: string): boolean => {
-    // First check if this round exists for this student
-    if (student.rounds[round] === null) return false;
-    
-    // Then check if it's in editedStudents
+    // First check if this student has an edited state for this round
     if (editedStudents[student.usn]?.[round] !== undefined) {
       return editedStudents[student.usn][round];
     }
     
-    // Otherwise, use the original data
+    // Otherwise, check the original data
+    // Only return true if the round is explicitly true (not null or false)
     return student.rounds[round] === true;
   };
 
   const isRoundIndeterminate = (round: string): boolean => {
-    const studentsWithRound = filteredStudents.filter(
-      student => student.rounds[round] !== null
-    );
-    
-    if (studentsWithRound.length === 0) return false;
-    
-    const selectedCount = studentsWithRound.filter(
+    // All students are now eligible for this check, regardless of null status
+    const checkedCount = filteredStudents.filter(
       student => isRoundChecked(student, round)
     ).length;
     
-    return selectedCount > 0 && selectedCount < studentsWithRound.length;
+    return checkedCount > 0 && checkedCount < filteredStudents.length;
   };
 
   const isAllRoundChecked = (round: string): boolean => {
-    const studentsWithRound = filteredStudents.filter(
-      student => student.rounds[round] !== null
-    );
-    
-    if (studentsWithRound.length === 0) return false;
-    
-    return studentsWithRound.every(student => isRoundChecked(student, round));
+    // All students are now eligible for this check, regardless of null status
+    return filteredStudents.length > 0 && 
+      filteredStudents.every(student => isRoundChecked(student, round));
   };
 
   // Update displayRoundNames to only show rounds that exist and have non-null values
@@ -399,9 +398,23 @@ const StudentAnalysis = () => {
     }
   };
 
+  const handleRefresh = () => {
+    fetchStudents();
+  };
+
   return (
     <div className="p-4 border-4 rounded-lg flex flex-col items-center w-full mx-10">
-      <h2 className="text-xl font-semibold mb-4">Student Round Progress: {company}</h2>
+      <div className="w-full flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Student Round Progress: {company}</h2>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleRefresh} 
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Refresh"}
+        </Button>
+      </div>
 
       {submitted ? (
         <div className="text-green-600 font-bold text-lg p-4">
@@ -503,6 +516,8 @@ const StudentAnalysis = () => {
                         <Checkbox
                           checked={isRoundChecked(student, round)}
                           onCheckedChange={() => handleCheckboxChange(student.usn, round)}
+                          // Only disable if the round is not applicable for this company
+                          disabled={companyRounds[round] === null}
                         />
                       </TableCell>
                     ))}
@@ -515,12 +530,12 @@ const StudentAnalysis = () => {
           <div className="mt-6 flex gap-2">
             <Button
               onClick={handleSubmit}
-              disabled={isSubmitting}
+              disabled={isSubmitting || Object.keys(editedStudents).length === 0}
               variant="default"
             >
               {isSubmitting ? "Updating..." : selectedStudents.length > 0 
                 ? `Update ${selectedStudents.length} Selected Students` 
-                : "Update All Students"}
+                : `Update ${Object.keys(editedStudents).length} Students`}
             </Button>
             {selectedStudents.length > 0 && (
               <Button variant="outline" onClick={() => setSelectedStudents([])}>

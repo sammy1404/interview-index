@@ -15,9 +15,9 @@ const supabase = createClient(url, anon_key);
 type RoundsType = {
   virtual: boolean | null;
   on_campus: boolean | null;
-  applied: boolean | null;
-  shortlisted: boolean | null;
-  attended: boolean | null;
+  applied: boolean;
+  shortlisted: boolean;
+  attended: boolean;
   resume_screening: boolean | null;
   aptitude: boolean | null;
   technical_mcq: boolean | null;
@@ -29,16 +29,16 @@ type RoundsType = {
   assignment: boolean | null;
   managerial_round: boolean | null;
   hr_round: boolean | null;
-  placed: boolean | null;
+  placed: boolean;
 };
 
 // Default all rounds to `null`
 const defaultRounds: RoundsType = {
   virtual: null,
   on_campus: null,
-  applied: null,
-  shortlisted: null,
-  attended: null,
+  applied: false,
+  shortlisted: false,
+  attended: false,
   resume_screening: null,
   aptitude: null,
   technical_mcq: null,
@@ -50,7 +50,7 @@ const defaultRounds: RoundsType = {
   assignment: null,
   managerial_round: null,
   hr_round: null,
-  placed: null,
+  placed: false,
 };
 
 interface RoundsProps {
@@ -63,10 +63,18 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
 
   // Handle checkbox click
   const handleCheckboxClick = (round: keyof RoundsType, checked: boolean) => {
-    const newValue = (round == 'virtual' || round == 'on_campus') ? (checked ? true : null) : (checked ? false : null); // Set false if checked, null if unchecked
     setRounds((prevRounds) => ({
       ...prevRounds,
-      [round]: newValue,
+      [round]: checked,
+    }));
+  };
+  
+  // New handler for radio group
+  const handleRadioChange = (value: string) => {
+    setRounds((prevRounds) => ({
+      ...prevRounds,
+      virtual: value === 'virtual' ? true : null,
+      on_campus: value === 'on_campus' ? true : null,
     }));
   };
 
@@ -96,24 +104,36 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
       <p className="text-lg text-red-400">Company Name: {company}</p>
 
       <div className="grid grid-cols-6 gap-y-3 p-5 gap-x-5">
+        {/* Radio group for virtual/on_campus */}
+        <div className="col-span-6 mb-4">
+          <Label className="mb-2 block">Assessment Type</Label>
+          <RadioGroup 
+            defaultValue={rounds.virtual ? 'virtual' : rounds.on_campus ? 'on_campus' : ''} 
+            onValueChange={handleRadioChange}
+          >
+            <div className="flex space-x-4">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="virtual" id="virtual" />
+                <Label htmlFor="virtual">Virtual</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="on_campus" id="on_campus" />
+                <Label htmlFor="on_campus">On Campus</Label>
+              </div>
+            </div>
+          </RadioGroup>
+        </div>
+        
+        {/* Other rounds as checkboxes */}
         {Object.keys(rounds).map((round) => (
-          round == "virtual" || round == "on_campus" ? (
+          (round !== "virtual" && round !== "on_campus") && (
             <label key={round} className="flex items-center gap-2 text-sm">
-            <input 
-              type="radio"
-              name="assessment-type"
-              onChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
-            />
-            <span className="capitalize">{round.replace(/_/g, " ")}</span>
+              <Checkbox
+                onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
+              />
+              <span className="capitalize">{round === "gd" ? "Group Discussion" : round.replace(/_/g, " ")}</span>
             </label>
           )
-          :
-          <label key={round} className="flex items-center gap-2 text-sm">
-            <Checkbox
-              onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
-            />
-            <span className="capitalize">{round === "gd" ? "Group Discussion" : round.replace(/_/g, " ")}</span>
-          </label>
         ))}
       </div>
 
