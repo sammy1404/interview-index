@@ -18,8 +18,11 @@ const supabase = createClient(url, anon_key);
 // Define the interface for fetched student data
 interface Student {
   usn: string;
-  name: string;
+  student_info: {
+    name: string | null;
+  } | null;
 }
+
 
 interface StatsProps {
   company: string;
@@ -27,33 +30,32 @@ interface StatsProps {
 
 const Stats: React.FC<StatsProps> = ({ company }) => {
   const [students, setStudents] = useState<Student[]>([]);
-  const [loading, setLoading] = useState(true);
 
   // Fetch students from interview_stats with their names
-  const fetchEligibleStudents = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from("interview_stats")
-        .select("usn, student_info (name)") // Ensure correct relationship
-        .eq("eligibility", true)
-        .eq("company_name", company);
+const fetchEligibleStudents = useCallback(async () => {
+  try {
+    const { data, error } = await supabase
+      .from("interview_stats")
+      .select("usn, student_info (name)")
+      .eq("eligibility", true)
+      .eq("company_name", company);
 
-      if (error) throw error;
+    if (error) throw error;
 
-      const formattedData = data.map((item) => ({
-        usn: item.usn,
-        name: item.student_info?.name ?? "Unknown", // Avoid undefined values
-      }));
+    const formattedData = (data as unknown as Student[]).map((item) => ({
+      usn: item.usn,
+      student_info: item.student_info
+    }));
 
-      setStudents(formattedData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setStudents([]); // Ensure state consistency on failure
-    } finally {
-      setLoading(false);
-    }
-  }, [company]); // Add `company` as a dependency
+    console.log("Fetched Data:", formattedData);
+
+    setStudents(formattedData);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    setStudents([]);
+  }
+}, [company, students]);
+
 
   const deleteStudent = async (usn: string) => {
     // Confirm deletion
@@ -77,13 +79,11 @@ const Stats: React.FC<StatsProps> = ({ company }) => {
 
   useEffect(() => {
     fetchEligibleStudents();
-    const intervalId = setInterval(fetchEligibleStudents, 1000); 
 
-    return () => clearInterval(intervalId); // Cleanup on unmount
-  }, [fetchEligibleStudents]);
+  }, [company, fetchEligibleStudents],);
 
   return (
-    <div className="flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl w-[350px]">
+    <div className="flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl w-full h-1/2">
       <h2 className="text-lg font-semibold">Students eligible for: {company}</h2>
       {/* {loading ? (
         <p className="mt-4">Loading...</p>
@@ -99,12 +99,12 @@ const Stats: React.FC<StatsProps> = ({ company }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {students.map(({ usn, name }) => (
+            {students.map(({ usn, student_info }) => (
               <TableRow key={usn} className="border-b">
                 <TableCell className="p-2 text-center">{usn}</TableCell>
-                <TableCell className="p-2 text-center">{name}</TableCell>
+                <TableCell className="p-2 text-center">{student_info?.name}</TableCell>
                 <TableCell className="delete">
-                  <button onClick={() => deleteStudent(usn)} className="text-red-500">Delete</button>
+                  <button onClick={() => deleteStudent(usn)} className="text-popover bg-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500 transition-all duration-300 ease-in-out transform hover:scale-105">Delete</button>
                 </TableCell>
               </TableRow>
             ))}

@@ -1,5 +1,6 @@
 "use client";
 
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -15,6 +16,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Search } from "lucide-react";
+
 
 const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -41,6 +43,9 @@ const StudentAnalysis = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [roundFields, setRoundFields] = useState<string[]>([]);
   const [companyRounds, setCompanyRounds] = useState<{ [key: string]: boolean | null }>({});
+  const [file, setFile] = useState<File | null>(null);
+  const [fileLoading, setFileLoading] = useState(false);
+  const [notFoundUsns, setNotFoundUsns] = useState<string[]>([]);
 
   // Function to select all students for a specific round
   const selectAll = (round: string) => {
@@ -107,7 +112,9 @@ const StudentAnalysis = () => {
         // Extract rounds, excluding non-round fields
         const companyRecord = companyData[0];
         const rounds = Object.fromEntries(
-          Object.entries(companyRecord).filter(([key]) => !excludedColumns.includes(key))
+          Object.entries(companyRecord)
+          .filter(([key]) => !excludedColumns.includes(key))
+          .map((key) => [Boolean(key)])
         );
         setCompanyRounds(rounds);
       }
@@ -154,6 +161,7 @@ const StudentAnalysis = () => {
         const rounds = Object.fromEntries(
           Object.entries(interview)
             .filter(([key]) => !excludedColumns.includes(key))
+            .map((key) => [Boolean(key)])
         );
 
         return {
@@ -322,8 +330,74 @@ const StudentAnalysis = () => {
     !excludedColumns.includes(field) && companyRounds[field] !== null
   );
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleFileUpload = async () => {
+    if (!file) {
+      alert("Please select a file first!");
+      return;
+    }
+    
+    setFileLoading(true);
+    setNotFoundUsns([]);
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await fetch('/api/fileprocess', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const usnsFromExcel = await response.json();
+      
+      if (Array.isArray(usnsFromExcel) && usnsFromExcel.length > 0) {
+        // Create a map of all available USNs in our data for quick lookup
+        const existingUsnsMap = students.reduce((acc, student) => {
+          acc[student.usn.toLowerCase()] = student.usn;
+          return acc;
+        }, {} as Record<string, string>);
+
+        const foundUsns: string[] = [];
+        const missingUsns: string[] = [];
+
+        usnsFromExcel.forEach(usn => {
+          const normalizedUsn = typeof usn === 'string' ? usn.toLowerCase() : '';
+          if (normalizedUsn && existingUsnsMap[normalizedUsn]) {
+            foundUsns.push(existingUsnsMap[normalizedUsn]);
+          } else if (usn) {
+            missingUsns.push(usn);
+          }
+        });
+
+        setSelectedStudents(foundUsns);
+        setNotFoundUsns(missingUsns);
+        
+        // Clear search to show all students with their updated selection state
+        setSearchQuery("");
+        
+        if (missingUsns.length > 0) {
+          alert(`${missingUsns.length} USNs from Excel file were not found in the student list.`);
+        }
+      } else {
+        alert("No valid USNs found in the Excel file or invalid format.");
+      }
+      
+    } catch (error) {
+      console.error("Error processing file:", error);
+      alert("Error processing Excel file. Please check the console for details.");
+    } finally {
+      setFileLoading(false);
+    }
+  };
+
   return (
-    <div className="p-4 border-2 rounded-lg flex flex-col items-center w-full">
+    <div className="p-4 border-4 rounded-lg flex flex-col items-center w-full mx-10">
       <h2 className="text-xl font-semibold mb-4">Student Round Progress: {company}</h2>
 
       {submitted ? (
@@ -336,7 +410,7 @@ const StudentAnalysis = () => {
         <p>No eligible students found.</p>
       ) : (
         <>
-          <div className="flex w-full items-center justify-between mb-4">
+          <div className="flex w-full items-center justify-between mb-4 px-5 py-3 rounded-lg">
             <div className="relative w-1/3">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input 
@@ -347,6 +421,28 @@ const StudentAnalysis = () => {
               />
             </div>
             
+            <div className="flex items-center gap-2">
+              <Input 
+                id="picture" 
+                type="file" 
+                accept=".xlsx, .xls"
+                onChange={handleFileChange} 
+                className="w-60"
+              />
+              <Button
+                variant="outline"
+                onClick={handleFileUpload}
+                disabled={fileLoading || !file}
+              >
+                {fileLoading ? "Processing..." : "Upload Excel"}
+              </Button>
+              {notFoundUsns.length > 0 && (
+                <span className="text-xs text-red-500">
+                  {notFoundUsns.length} USNs not found
+                </span>
+              )}
+            </div>
+
             <div className="flex items-center space-x-2">
               <span>{selectedStudents.length} students selected</span>
               <Button 

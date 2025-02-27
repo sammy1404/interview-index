@@ -87,11 +87,11 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
   };
 
   return (
-    <div className="flex flex-col items-center text-center border-2 border-accent-foreground p-4 rounded-xl h-fit w-fit overflow-auto hide-scroller">
+    <div className="flex flex-col items-center text-center border-4 border-border p-4 rounded-xl h-fit w-fit overflow-auto hide-scroller">
       <h2 className="text-sm">Select the rounds in the drive</h2>
       <p className="text-lg text-red-400">Company Name: {company}</p>
 
-      <div className="grid grid-cols-2 gap-2 p-5">
+      <div className="grid grid-cols-6 gap-y-33 p-5 gap-x-5">
         {Object.keys(rounds).map((round) => (
           <label key={round} className="flex items-center gap-2 text-sm">
             <Checkbox
