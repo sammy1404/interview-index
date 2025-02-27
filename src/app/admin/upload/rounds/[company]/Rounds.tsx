@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
 
 const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -60,7 +63,7 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
 
   // Handle checkbox click
   const handleCheckboxClick = (round: keyof RoundsType, checked: boolean) => {
-    const newValue = checked ? false : null; // Set false if checked, null if unchecked
+    const newValue = (round == 'virtual' || round == 'on_campus') ? (checked ? true : null) : (checked ? false : null); // Set false if checked, null if unchecked
     setRounds((prevRounds) => ({
       ...prevRounds,
       [round]: newValue,
@@ -86,16 +89,27 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
     }
   };
 
+
   return (
     <div className="flex flex-col items-center text-center border-4 border-border p-4 rounded-xl h-fit w-fit overflow-auto hide-scroller">
       <h2 className="text-sm">Select the rounds in the drive</h2>
       <p className="text-lg text-red-400">Company Name: {company}</p>
 
-      <div className="grid grid-cols-6 gap-y-33 p-5 gap-x-5">
+      <div className="grid grid-cols-6 gap-y-3 p-5 gap-x-5">
         {Object.keys(rounds).map((round) => (
+          round == "virtual" || round == "on_campus" ? (
+            <label key={round} className="flex items-center gap-2 text-sm">
+            <input 
+              type="radio"
+              name="assessment-type"
+              onChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
+            />
+            <span className="capitalize">{round.replace(/_/g, " ")}</span>
+            </label>
+          )
+          :
           <label key={round} className="flex items-center gap-2 text-sm">
             <Checkbox
-              checked={rounds[round as keyof RoundsType] === false} // Only show ticked if false
               onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
             />
             <span className="capitalize">{round === "gd" ? "Group Discussion" : round.replace(/_/g, " ")}</span>

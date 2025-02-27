@@ -126,6 +126,8 @@ const StudentAnalysis = () => {
         .eq("company_name", company)
         .eq("eligibility", true);
 
+        console.log(typeof(interviewData?.coding_2))
+
       if (interviewError) {
         console.error("Error fetching interview stats:", interviewError);
         setLoading(false);
@@ -161,7 +163,6 @@ const StudentAnalysis = () => {
         const rounds = Object.fromEntries(
           Object.entries(interview)
             .filter(([key]) => !excludedColumns.includes(key))
-            .map((key) => [Boolean(key)])
         );
 
         return {
@@ -325,9 +326,11 @@ const StudentAnalysis = () => {
     return studentsWithRound.every(student => isRoundChecked(student, round));
   };
 
-  // Only show rounds that exist for the company
+  // Update displayRoundNames to only show rounds that exist and have non-null values
   const displayRoundNames = roundFields.filter(field => 
-    !excludedColumns.includes(field) && companyRounds[field] !== null
+    !excludedColumns.includes(field) && 
+    // Check if any student has a non-null value for this round
+    students.some(student => student.rounds[field] !== null)
   );
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -497,14 +500,10 @@ const StudentAnalysis = () => {
                     <TableCell>{student.name}</TableCell>
                     {displayRoundNames.map((round) => (
                       <TableCell key={round} className="text-center">
-                        {student.rounds[round] !== null ? (
-                          <Checkbox
-                            checked={isRoundChecked(student, round)}
-                            onCheckedChange={() => handleCheckboxChange(student.usn, round)}
-                          />
-                        ) : (
-                          <span className="text-neutral-400">-</span>
-                        )}
+                        <Checkbox
+                          checked={isRoundChecked(student, round)}
+                          onCheckedChange={() => handleCheckboxChange(student.usn, round)}
+                        />
                       </TableCell>
                     ))}
                   </TableRow>
