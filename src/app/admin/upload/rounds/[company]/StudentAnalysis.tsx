@@ -301,7 +301,6 @@ const StudentAnalysis = () => {
 
   const isRoundChecked = (student: Student, round: string): boolean => {
     // First check if this student has an edited state for this round
-    console.log(student, round);
     if (editedStudents[student.usn]?.[round] !== undefined) {
       return editedStudents[student.usn][round];
     }
@@ -358,9 +357,16 @@ const StudentAnalysis = () => {
       });
       
       const usnsFromExcel = await response.json();
-      
+
       if (Array.isArray(usnsFromExcel) && usnsFromExcel.length > 0) {
         // Create a map of all available USNs in our data for quick lookup
+        const extractedUSNs = new Set(usnsFromExcel.map((usn) => usn.toLowerCase().trim()))
+        const matchedStudents = students.filter((student) => 
+          extractedUSNs.has(student.usn.toLowerCase().trim())
+        ); 
+        setFilteredStudents(matchedStudents);
+        console.log(matchedStudents);
+
         const existingUsnsMap = students.reduce((acc, student) => {
           acc[student.usn.toLowerCase()] = student.usn;
           return acc;
