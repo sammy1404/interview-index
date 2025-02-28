@@ -13,7 +13,7 @@ const HomePage = () => {
       <form onSubmit={(e) => { e.preventDefault(); }}>
         <input className="bg-muted placeholder:text-input px-3 py-1 rounded-md text-center" type="text" value={company} onChange={(e) => setCompany(e.target.value.toLowerCase())} placeholder="Enter company name" />
       </form>
-      <div className="flex mt-5 gap-6 w-[100vw] justify-center">
+      <div className="flex mt-5 gap-6 w-[100vw] justify-center min-h-screen">
         <Eligibility company={company} />
       </div>
       
