@@ -66,7 +66,7 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
   const handleCheckboxClick = (round: keyof RoundsType, checked: boolean) => {
     setRounds((prevRounds) => ({
       ...prevRounds,
-      [round]: checked,
+      [round]: !checked,
     }));
   };
   
@@ -82,6 +82,7 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
   // Handle submit
   const handleSubmit = async () => {
     setLoading(true);
+    console.log(rounds)
 
     const { error } = await supabase
       .from("interview_stats")
@@ -128,14 +129,14 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
         
         {/* Other rounds as checkboxes */}
         {Object.keys(rounds).map((round) => (
-          (round !== "virtual" && round !== "on_campus") && (
+          (round !== "virtual" && round !== "on_campus")?(
             <label key={round} className="flex items-center gap-2 text-sm">
               <Checkbox
                 onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
               />
               <span className="capitalize">{round === "gd" ? "Group Discussion" : round.replace(/_/g, " ")}</span>
             </label>
-          )
+          ):null
         ))}
       </div>
       

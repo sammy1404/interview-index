@@ -301,6 +301,7 @@ const StudentAnalysis = () => {
 
   const isRoundChecked = (student: Student, round: string): boolean => {
     // First check if this student has an edited state for this round
+    console.log(student, round);
     if (editedStudents[student.usn]?.[round] !== undefined) {
       return editedStudents[student.usn][round];
     }
@@ -484,7 +485,7 @@ const StudentAnalysis = () => {
                   </TableHead>
                   <TableHead className="w-40">USN</TableHead>
                   <TableHead className="w-64">Name</TableHead>
-                  {displayRoundNames.map((round) => (
+                  {displayRoundNames.map((round) => ( round != "virtual" && round != "on_campus" ?
                     <TableHead key={round} className="capitalize text-center">
                       <div className="flex flex-col items-center gap-1">
                         <Checkbox
@@ -497,6 +498,7 @@ const StudentAnalysis = () => {
                         </span>
                       </div>
                     </TableHead>
+                    : null
                   ))}
                 </TableRow>
               </TableHeader>
@@ -511,15 +513,15 @@ const StudentAnalysis = () => {
                     </TableCell>
                     <TableCell>{student.usn}</TableCell>
                     <TableCell>{student.name}</TableCell>
-                    {displayRoundNames.map((round) => (
+                    {displayRoundNames.map((round) => ( round != "virtual" && round != "on_campus" ?
                       <TableCell key={round} className="text-center">
                         <Checkbox
                           checked={isRoundChecked(student, round)}
                           onCheckedChange={() => handleCheckboxChange(student.usn, round)}
-                          // Only disable if the round is not applicable for this company
                           disabled={companyRounds[round] === null}
                         />
                       </TableCell>
+                      : null
                     ))}
                   </TableRow>
                 ))}
