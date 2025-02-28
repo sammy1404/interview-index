@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { La_Belle_Aurore } from "next/font/google";
 
 
 const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
@@ -99,29 +100,30 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
 
 
   return (
-    <div className="flex flex-col items-center text-center border-4 border-border p-4 rounded-xl h-fit w-fit overflow-auto hide-scroller">
+    <div className="flex flex-col items-center text-center border-4 border-border p-4 rounded-xl h-fit w-full overflow-auto hide-scroller">
       <h2 className="text-sm">Select the rounds in the drive</h2>
       <p className="text-lg text-red-400">Company Name: {company}</p>
 
-      <div className="grid grid-cols-6 gap-y-3 p-5 gap-x-5">
+      <div className="grid grid-cols-6 gap-y-3 p-5 gap-x-5 w-full justify-center">
         {/* Radio group for virtual/on_campus */}
-        <div className="col-span-6 mb-4">
-          <Label className="mb-2 block">Assessment Type</Label>
+        <div className="col-span-6 flex flex-col gap-4">
+          <Label className="block justify-center font-bold text-lg">Assessment Type</Label>
           <RadioGroup 
             defaultValue={rounds.virtual ? 'virtual' : rounds.on_campus ? 'on_campus' : ''} 
             onValueChange={handleRadioChange}
           >
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 justify-center">
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="virtual" id="virtual" />
-                <Label htmlFor="virtual">Virtual</Label>
+                <Label htmlFor="virtual" className="font-bold">Virtual</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="on_campus" id="on_campus" />
-                <Label htmlFor="on_campus">On Campus</Label>
+                <Label htmlFor="on_campus" className="font-bold">On Campus</Label>
               </div>
             </div>
           </RadioGroup>
+          <p className="mb-4">Select the rounds</p>
         </div>
         
         {/* Other rounds as checkboxes */}
