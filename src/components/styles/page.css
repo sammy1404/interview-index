@@ -49,9 +49,10 @@
 }
 
 .display-container {
+  position: relative;
   width: 100vw;
   height: 80vh;
-
+  margin-top: 5px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -66,20 +67,19 @@
   min-width: 25rem;
   width: 60vw;
   position: relative;
-
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .student-display-container {
-  height: 80vh;
+  height: 100%;
   width: 35vw;
   position: relative;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
 }
 .company-input {

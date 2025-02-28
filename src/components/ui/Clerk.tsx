@@ -6,7 +6,7 @@ import "@/components/styles/yashas-homepage.css"
 const Clerk = () => {
   return (
     <div>
-        <SignedOut>
+        <SignedOut> 
             <SignInButton>
             <button id="loginBtn" className="login-button">Log in</button>
             </SignInButton>

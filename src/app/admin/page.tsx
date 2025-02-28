@@ -90,9 +90,9 @@ export default function Home() {
 
 
       <div className="display-container">
-        <div className="student-display-container">
+        <div className="student-display-container gap-5">
           <Student_display usn={usn} />
-          <div className="filter-container">
+          <div className="filter-container h-1/3">
             <input
               onChange={(e) => setCompanyName(e.target.value)}
               placeholder="Example: Microsoft"

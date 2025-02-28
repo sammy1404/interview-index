@@ -5,7 +5,7 @@ import Clerk from "@/components/ui/Clerk";
 
 const HomePage = () => {
   return (
-    <body>
+    <div>
      <div className="container">
         <nav>
             <Clerk />
@@ -15,7 +15,7 @@ const HomePage = () => {
           <TypingAnimation>The key to happiness is to login.</TypingAnimation>
         </div>
       </div> 
-    </body>
+    </div>
   )
 }
 
