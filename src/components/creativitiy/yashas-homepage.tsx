@@ -8,7 +8,7 @@ const HomePage = () => {
     <body>
      <div className="container">
         <nav>
-            <button id="loginBtn" className="login-button"><Clerk /></button>
+            <Clerk />
         </nav>
         <div className="content">
           <h2>Welcome to <span>DriveMetrics</span></h2>
