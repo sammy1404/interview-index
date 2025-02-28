@@ -91,30 +91,42 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
 
 
   return (
-    <div className="flex flex-col items-center text-center border-4 border-border p-4 rounded-xl h-fit w-fit overflow-auto hide-scroller">
+    <div className="flex flex-col items-center text-center border-4 border-border p-4 rounded-xl h-fit w-fit overflow-auto hide-scroller w-full">
       <h2 className="text-sm">Select the rounds in the drive</h2>
       <p className="text-lg text-red-400">Company Name: {company}</p>
-
-      <div className="grid grid-cols-6 gap-y-3 p-5 gap-x-5">
-        {Object.keys(rounds).map((round) => (
-          round == "virtual" || round == "on_campus" ? (
-            <label key={round} className="flex items-center gap-2 text-sm">
-            <input 
-              type="radio"
-              name="assessment-type"
-              onChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
-            />
-            <span className="capitalize">{round.replace(/_/g, " ")}</span>
-            </label>
-          )
-          :
-          <label key={round} className="flex items-center gap-2 text-sm">
-            <Checkbox
-              onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
-            />
-            <span className="capitalize">{round === "gd" ? "Group Discussion" : round.replace(/_/g, " ")}</span>
-          </label>
-        ))}
+      <div className="grid grid-cols-5 p-5 w-full">
+        <div className="col-span-1 flex">
+          <RadioGroup
+            defaultValue=""
+            onValueChange={(value) => handleCheckboxClick(value as keyof RoundsType, true)}
+          >
+            {Object.keys(rounds).map((round) =>
+              round === "virtual" || round === "on_campus" ? (
+                <div key={round} className="flex items-center gap-2">
+                  <RadioGroupItem value={round} id={round} />
+                  <Label htmlFor={round} className="capitalize">
+                    {round.replace(/_/g, " ")}
+                  </Label>
+                </div>
+              ) : null
+            )}
+          </RadioGroup>
+        </div>
+        <div className="col-span-4 grid grid-cols-5 gap-y-3">
+          {Object.keys(rounds).map((round) =>
+            round !== "virtual" && round !== "on_campus" ? (
+              <div key={round} className="items-center gap-2 flex">
+                <Checkbox
+                  id={round}
+                  onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
+                />
+                <Label htmlFor={round} className="capitalize">
+                  {round === "gd" ? "Group Discussion" : round.replace(/_/g, " ")}
+                </Label>
+              </div>
+            ) : null
+          )}
+        </div>
       </div>
 
       <Button
