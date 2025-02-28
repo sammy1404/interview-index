@@ -1,10 +1,8 @@
-
-
 "use client";
 
 // @typescript-eslint/no-explicit-any
 
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Input } from "@/components/ui/input";
@@ -35,7 +33,9 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [checkedItems, setCheckedItems] = useState<{ [usn: string]: boolean }>({});
+  const [checkedItems, setCheckedItems] = useState<{ [usn: string]: boolean }>(
+    {}
+  );
   const [selectAll, setSelectAll] = useState(false);
   const [fileLoading, setFileLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -46,16 +46,18 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   const selectedStudents = useMemo(() => {
     if (!data.length) return [];
     return data
-      .filter(student => checkedItems[student.usn])
-      .map(student => ({ 
-        name: student.name, 
-        usn: student.usn 
+      .filter((student) => checkedItems[student.usn])
+      .map((student) => ({
+        name: student.name,
+        usn: student.usn,
       }));
   }, [data, checkedItems]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
-      const { data: fetchedData, error } = await supabase.from("student_info").select("*");
+      const { data: fetchedData, error } = await supabase
+        .from("student_info")
+        .select("*");
       if (error) console.error("Error fetching data:", error);
       else {
         setData(fetchedData || []);
@@ -99,7 +101,9 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const selectedStudentUsns = Object.keys(checkedItems).filter((usn) => checkedItems[usn]);
+    const selectedStudentUsns = Object.keys(checkedItems).filter(
+      (usn) => checkedItems[usn]
+    );
 
     if (selectedStudentUsns.length === 0) {
       console.warn("No students selected for insertion.");
@@ -126,13 +130,17 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
       }));
 
     if (validStudentsData.length === 0) {
-      console.warn("None of the selected USNs exist in student_info. Aborting insert.");
+      console.warn(
+        "None of the selected USNs exist in student_info. Aborting insert."
+      );
       return;
     }
 
     console.log("Inserting:", validStudentsData);
 
-    const { error: insertError } = await supabase.from("interview_stats").insert(validStudentsData);
+    const { error: insertError } = await supabase
+      .from("interview_stats")
+      .insert(validStudentsData);
 
     if (insertError) {
       console.error("Error inserting data:", insertError);
@@ -156,22 +164,22 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
       alert("Please select a file first!");
       return;
     }
-    
+
     setFileLoading(true);
     setNotFoundUsns([]);
-    
+
     try {
       const formData = new FormData();
-      formData.append('file', file);
-      
-      const response = await fetch('/api/fileprocess', {
-        method: 'POST',
+      formData.append("file", file);
+
+      const response = await fetch("/api/fileprocess", {
+        method: "POST",
         body: formData,
       });
-      
+
       const usnsFromExcel = await response.json();
       console.log("API Response:", usnsFromExcel);
-      
+
       if (Array.isArray(usnsFromExcel) && usnsFromExcel.length > 0) {
         // Create a map of all available USNs in our data for quick lookup
         const existingUsnsMap = data.reduce((acc, student) => {
@@ -183,9 +191,10 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
         const newCheckedState = { ...checkedItems };
         const missingUsns: string[] = [];
 
-        usnsFromExcel.forEach(usn => {
+        usnsFromExcel.forEach((usn) => {
           // Try with lowercase for case-insensitive matching
-          const normalizedUsn = typeof usn === 'string' ? usn.toLowerCase() : '';
+          const normalizedUsn =
+            typeof usn === "string" ? usn.toLowerCase() : "";
           if (normalizedUsn && existingUsnsMap[normalizedUsn]) {
             // Use the actual USN with proper casing from our data
             const actualUsn = existingUsnsMap[normalizedUsn];
@@ -197,20 +206,23 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
 
         setCheckedItems(newCheckedState);
         setNotFoundUsns(missingUsns);
-        
+
         // Clear search to show all students with their updated selection state
         setSearchTerm("");
-        
+
         if (missingUsns.length > 0) {
-          alert(`${missingUsns.length} USNs from Excel file were not found in the student list.`);
+          alert(
+            `${missingUsns.length} USNs from Excel file were not found in the student list.`
+          );
         }
       } else {
         alert("No valid USNs found in the Excel file or invalid format.");
       }
-      
     } catch (error) {
       console.error("Error processing file:", error);
-      alert("Error processing Excel file. Please check the console for details.");
+      alert(
+        "Error processing Excel file. Please check the console for details."
+      );
     } finally {
       setFileLoading(false);
     }
@@ -230,12 +242,12 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
               className="w-fit"
             />
             <div className="flex items-center gap-2 w-fit">
-              <Input 
-                id="picture" 
-                type="file" 
+              <Input
+                id="picture"
+                type="file"
                 accept=".xlsx, .xls"
                 onChange={handleFileChange}
-                className="w-fit" 
+                className="w-fit"
               />
               <Button
                 variant="default"
@@ -256,7 +268,11 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
             <TableHeader>
               <TableRow>
                 <TableHead>
-                  <button className="font-bold" type="button" onClick={handleSelectAll}>
+                  <button
+                    className="font-bold"
+                    type="button"
+                    onClick={handleSelectAll}
+                  >
                     {selectAll ? "Deselect All" : "Select All"}
                   </button>
                 </TableHead>
@@ -284,10 +300,12 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
         </form>
         <div className="flex flex-col gap-4 min-w-fit w-1/2">
           <Stats company={company} />
-          
+
           {/* Selected Students Box */}
           <div className="border-2 border-accent-foreground p-4 rounded-xl w-full h-1/2 overflow-scroll hide-scroller">
-            <h3 className="font-semibold text-center mb-3">Selected Students ({selectedStudents.length})</h3>
+            <h3 className="font-semibold text-center mb-3">
+              Selected Students ({selectedStudents.length})
+            </h3>
             <div className="overflow-y-scroll pr-2 hide-scroller overflow-hidden">
               {selectedStudents.length > 0 ? (
                 <table className="w-full text-sm">
@@ -300,16 +318,23 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
                   <tbody>
                     {selectedStudents.map((student) => (
                       <tr key={student.usn} className="hover:bg-muted">
-                        <td className="py-1 text-left truncate max-w-[150px]" title={student.name}>
+                        <td
+                          className="py-1 text-left truncate max-w-[150px]"
+                          title={student.name}
+                        >
                           {student.name}
                         </td>
-                        <td className="py-1 text-right font-mono">{student.usn}</td>
+                        <td className="py-1 text-right font-mono">
+                          {student.usn}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               ) : (
-                <p className="text-center text-muted-foreground">No students selected</p>
+                <p className="text-center text-muted-foreground">
+                  No students selected
+                </p>
               )}
             </div>
           </div>
@@ -322,8 +347,8 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
         >
           Submit
         </button>
-        <button 
-          className="hover:bg-muted-foreground hover:text-primary-foreground text-ring px-5 py-2 rounded-md transition-all duration-300" 
+        <button
+          className="hover:bg-muted-foreground hover:text-primary-foreground text-ring px-5 py-2 rounded-md transition-all duration-300"
           onClick={next}
         >
           Go to the next page
