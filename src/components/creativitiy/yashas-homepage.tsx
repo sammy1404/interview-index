@@ -5,17 +5,17 @@ import Clerk from "@/components/ui/Clerk";
 
 const HomePage = () => {
   return (
-    <body>
+    <div>
      <div className="container">
         <nav>
-            <button id="loginBtn" className="login-button"><Clerk /></button>
+            <Clerk />
         </nav>
         <div className="content">
           <h2>Welcome to <span>DriveMetrics</span></h2>
           <TypingAnimation>The key to happiness is to login.</TypingAnimation>
         </div>
       </div> 
-    </body>
+    </div>
   )
 }
 

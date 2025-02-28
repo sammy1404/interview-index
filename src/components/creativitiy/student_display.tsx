@@ -21,7 +21,7 @@ export default function Student_display({ usn }: Props) {
   }, [usn]);
 
   return (
-    <div className="student-info">
+    <div className="student-info h-2/3">
       <div className="student-info-container">
         <div className="student-header">
           <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
