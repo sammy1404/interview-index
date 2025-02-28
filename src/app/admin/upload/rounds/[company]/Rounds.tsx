@@ -138,7 +138,7 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
           )
         ))}
       </div>
-
+      
       <Button
         onClick={handleSubmit}
         disabled={loading}
