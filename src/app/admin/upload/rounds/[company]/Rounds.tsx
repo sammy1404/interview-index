@@ -108,12 +108,13 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
       <div className="grid grid-cols-6 gap-y-3 p-5 gap-x-5 w-full justify-center">
         {/* Radio group for virtual/on_campus */}
         <div className="col-span-6 flex flex-col gap-4">
-          <Label className="block justify-center font-bold text-lg">Assessment Type</Label>
+          <Label className="block justify-center font-bold text-lg">Online Assessment</Label>
           <RadioGroup 
             defaultValue={rounds.virtual ? 'virtual' : rounds.on_campus ? 'on_campus' : ''} 
             onValueChange={handleRadioChange}
           >
-            <div className="flex space-x-4 justify-center">
+          
+            <div className=" flex flex-col items-center gap-5">
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="virtual" id="virtual" />
                 <Label htmlFor="virtual" className="font-bold">Virtual</Label>
@@ -122,14 +123,30 @@ const Rounds: React.FC<RoundsProps> = ({ company }) => {
                 <RadioGroupItem value="on_campus" id="on_campus" />
                 <Label htmlFor="on_campus" className="font-bold">On Campus</Label>
               </div>
+              <div className="flex">
+              <div className="flex gap-5">
+              {Object.keys(rounds).map((round) => (
+                (round == "technical_mcq" || round == "aptitude" || round=="coding_1")?(
+                  <label key={round} className="flex items-center gap-2 text-sm">
+                    <Checkbox
+                      onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
+                    />
+                    <span className="capitalize">{round.replace(/_/g, " ")}</span>
+                  </label>
+                ):null
+              ))}
+
+
+              </div>
             </div>
+          </div>
           </RadioGroup>
           <p className="mb-4">Select the rounds</p>
         </div>
         
         {/* Other rounds as checkboxes */}
         {Object.keys(rounds).map((round) => (
-          (round !== "virtual" && round !== "on_campus")?(
+          (round !== "virtual" && round !== "on_campus" && round !== "technical_mcq" && round !== "aptitude" && round !== "coding_1")?(
             <label key={round} className="flex items-center gap-2 text-sm">
               <Checkbox
                 onCheckedChange={(checked) => handleCheckboxClick(round as keyof RoundsType, checked as boolean)}
