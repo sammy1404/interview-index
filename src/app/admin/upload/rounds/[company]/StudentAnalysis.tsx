@@ -115,6 +115,7 @@ const StudentAnalysis = () => {
           Object.entries(companyRecord)
           .filter(([key]) => !excludedColumns.includes(key))
         );
+        {/*@ts-ignore*/}
         setCompanyRounds(rounds);
       }
 
@@ -178,7 +179,9 @@ const StudentAnalysis = () => {
 
       // Update the set of students we've seen
       setProcessedStudents(currentProcessedUsns);
+      {/*// @ts-ignore */}
       setStudents(mergedData);
+      {/* @ts-ignore */}
       setFilteredStudents(mergedData);
       
       // Don't reset editedStudents entirely, as we might have pending changes

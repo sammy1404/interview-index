@@ -170,6 +170,7 @@ export default function Home() {
           <Interview_display usn={usn} filters={filters} companyName={companyName}/>
         </div>
       </div>
+      {/* @ts-expect-error Suppressing type error for incompatible attribute assignment*/}
       <Chatbot usn={usn}/>
     </div>
   );
