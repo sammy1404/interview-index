@@ -39,7 +39,7 @@ export default function Chatbot() {
     <>
       <div className={`flex justify-center items-center flex-col gap-5 fixed top-0 right-2 h-screen bg-background
       border-l-4 border-black shadow-lg transition-all duration-300 
-      ease-in-out ${isOpen ? "w-[40vw]" : "w-0 overflow-hidden"}`}>
+      ease-in-out ${isOpen ? "w-[40vw]" : "w-0 overflow-hidden translate-x-10"}`}>
         <div className="w-[30vw] h-[50vh] p-2 border-4 border-black rounded-md bg-white transition-all duration-300 overflow-scroll">
           {botResponse? Object.entries(botResponse).map(([company, message]) => (
             <div key={company} className='mb-2 p-2 border rounded-sm'>
