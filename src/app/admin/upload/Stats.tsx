@@ -66,7 +66,8 @@ const fetchEligibleStudents = useCallback(async () => {
       const { error } = await supabase
         .from("interview_stats")
         .delete()
-        .eq("usn", usn);
+        .eq("usn", usn)
+        .eq("company_name", company);
 
       if (error) throw error;
 

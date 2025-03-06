@@ -31,7 +31,11 @@ const url: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const anon_key: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 const supabase = createClient(url, anon_key);
 
-export default function Interview_display({ usn, filters, companyName }: Props) {
+export default function Interview_display({
+  usn,
+  filters,
+  companyName,
+}: Props) {
   const [students, setStudents] = useState<any[]>([]);
   const [filteredList, setFilteredList] = useState<any[]>([]);
   const [companyNames, setCompanyNames] = useState<string[]>([]);
@@ -56,14 +60,18 @@ export default function Interview_display({ usn, filters, companyName }: Props) 
             return student[key] === (value === "true" ? true : false);
           }) &&
           (!companyName ||
-            student.company_name?.toLowerCase().includes(companyName?.toLowerCase()))
+            student.company_name
+              ?.toLowerCase()
+              .includes(companyName?.toLowerCase()))
         );
       });
       setFilteredList(filtered_list);
     };
 
     const return_company_names = async () => {
-      const { data, error } = await supabase.from("companies").select("company_name");
+      const { data, error } = await supabase
+        .from("companies")
+        .select("company_name");
       if (error) {
         console.error("Error fetching company names:", error);
       } else if (data) {
@@ -71,8 +79,12 @@ export default function Interview_display({ usn, filters, companyName }: Props) 
         setCompanyNames(allCompanyNames);
 
         // Find companies the student is NOT eligible for
-        const eligibleCompanyNames = new Set(filteredList.map((student) => student.company_name));
-        const ineligible = allCompanyNames.filter((name) => !eligibleCompanyNames.has(name));
+        const eligibleCompanyNames = new Set(
+          filteredList.map((student) => student.company_name)
+        );
+        const ineligible = allCompanyNames.filter(
+          (name) => !eligibleCompanyNames.has(name)
+        );
         setIneligibleCompanies(ineligible);
       }
     };
@@ -93,7 +105,9 @@ export default function Interview_display({ usn, filters, companyName }: Props) 
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <p className="round">{student.eligibility ? <Check /> : <Cross />}</p>
+                      <p className="round">
+                        {student.eligibility ? <Check /> : <Cross />}
+                      </p>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Eligibility</p>
@@ -101,7 +115,9 @@ export default function Interview_display({ usn, filters, companyName }: Props) 
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger>
-                      <p className="round">{student.applied ? <Check /> : <Cross />}</p>
+                      <p className="round">
+                        {student.applied ? <Check /> : <Cross />}
+                      </p>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Applied</p>
@@ -109,7 +125,9 @@ export default function Interview_display({ usn, filters, companyName }: Props) 
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger>
-                      <p className="round">{student.shortlisted ? <Check /> : <Cross />}</p>
+                      <p className="round">
+                        {student.shortlisted ? <Check /> : <Cross />}
+                      </p>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Short Listed</p>
@@ -117,7 +135,9 @@ export default function Interview_display({ usn, filters, companyName }: Props) 
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger>
-                      <p className="round">{student.attended ? <Check /> : <Cross />}</p>
+                      <p className="round">
+                        {student.attended ? <Check /> : <Cross />}
+                      </p>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Attended</p>
@@ -137,15 +157,26 @@ export default function Interview_display({ usn, filters, companyName }: Props) 
                   { key: "coding_1", label: "Coding: 1" },
                   { key: "gd", label: "GD" },
                   { key: "coding_2", label: "Coding: 2" },
-                  { key: "technical_interview_1", label: "Technical Interview: 1" },
-                  { key: "technical_interview_2", label: "Technical Interview: 2" },
+                  {
+                    key: "technical_interview_1",
+                    label: "Technical Interview: 1",
+                  },
+                  {
+                    key: "technical_interview_2",
+                    label: "Technical Interview: 2",
+                  },
                   { key: "assignment", label: "Assignment" },
                   { key: "managerial_round", label: "Managerial Round" },
                   { key: "hr_round", label: "HR Round" },
                   { key: "placed", label: "Placed" },
                 ].map(({ key, label }) => (
                   <p key={key} className="round">
-                    {label} {student[key] === true ? <Arrow /> : student[key] === false ? <Cross /> : null}
+                    {label}{" "}
+                    {student[key] === true ? (
+                      <Arrow />
+                    ) : student[key] === false ? (
+                      <Cross />
+                    ) : null}
                   </p>
                 ))}
               </div>
@@ -154,24 +185,23 @@ export default function Interview_display({ usn, filters, companyName }: Props) 
         ))}
 
         {/* Render companies the student is NOT eligible for */}
-        {ineligibleCompanies.length > 0 && students.length>0 && (
-          <div className="company-container overflow-hidden">
-            
-            <div className="h-full">
-              {ineligibleCompanies.map((name, index) => (
-                <>
+        {ineligibleCompanies.length > 0 &&
+          students.length > 0 &&
+          ineligibleCompanies.map((name, index) => (
+            <div key={index} className="company-container">
+              <div className="h-full">
                 <div className="main-info">
-                <h1 key={index}>{name}</h1>
+                  <div>
+                    <h1>{name}</h1>
+                  </div>
+                  <div className="justify-center"></div>
                 </div>
-                <div className="justify-center">
-                <div className="round translate-y-[4rem] text-xl">NOT ELIGIBLE</div>
+                <div className="round translate-y-[4rem] text-xl">
+                  NOT ELIGIBLE
                 </div>
-                
-                </>
-              ))}
+              </div>
             </div>
-          </div>
-        )}
+          ))}
       </div>
     </div>
   );
