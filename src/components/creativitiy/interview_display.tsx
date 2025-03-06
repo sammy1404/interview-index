@@ -50,6 +50,7 @@ export default function Interview_display({
     };
     get_details();
   }, [usn]);
+
   useEffect(() => {
     const update_filtered_list = async () => {
       const filtered_list = students.filter((student: any) => {
@@ -59,36 +60,41 @@ export default function Interview_display({
             return student[key] === (value === "true" ? true : false);
           }) &&
           (!companyName ||
-            student.company_name?.toLowerCase().includes(companyName?.toLowerCase()))
+            student.company_name
+              ?.toLowerCase()
+              .includes(companyName?.toLowerCase()))
         );
       });
       setFilteredList(filtered_list);
     };
-  
-    update_filtered_list();
-  }, [filters, students, companyName]); // First effect updates filteredList
-  
-  // Second effect waits for filteredList to update before computing ineligible companies
-  useEffect(() => {
+
     const return_company_names = async () => {
-      const { data, error } = await supabase.from("companies").select("company_name");
+      const { data, error } = await supabase
+        .from("companies")
+        .select("company_name");
       if (error) {
         console.error("Error fetching company names:", error);
       } else if (data) {
         const allCompanyNames = data.map((company) => company.company_name);
         setCompanyNames(allCompanyNames);
-  
-        // Ensure filteredList is up-to-date before computing eligible companies
-        const eligibleCompanyNames = new Set(filteredList.map((student) => student.company_name));
-        const ineligible = allCompanyNames.filter((name) => !eligibleCompanyNames.has(name));
+
+        // Find companies the student is NOT eligible for
+        const eligibleCompanyNames = new Set(
+          filteredList.map((student) => student.company_name)
+        );
+        const ineligible = allCompanyNames.filter(
+          (name) => !eligibleCompanyNames.has(name)
+        );
         setIneligibleCompanies(ineligible);
-        console.log(ineligible); // Log the updated value instead of state
+        console.log(ineligibleCompanies)
+        // console.log(allCompanyNames)
       }
     };
-  
+
+    update_filtered_list();
     return_company_names();
-  }, [filteredList]); // Runs only when filteredList updates
-  
+  }, [filters, students, companyName]);
+
   return (
     <div className="interview-container">
       <div className="interview-stats">
@@ -306,7 +312,7 @@ export default function Interview_display({
         ))}
 
         {/* Render companies the student is NOT eligible for */}
-        {ineligibleCompanies.length > 0 &&
+        {ineligibleCompanies.length > 0 && filters.eligibility !=="true" &&
           students.length > 0 &&
           ineligibleCompanies.map((name, index) => (
             <div key={index} className="company-container">
