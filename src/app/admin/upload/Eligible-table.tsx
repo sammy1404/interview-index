@@ -29,6 +29,35 @@ interface EligibilityProps {
   company: string;
 }
 
+async function addCompanyIfNotExists(companyName: string) {
+  const { data: existingCompany, error: fetchError } = await supabase
+    .from("companies")
+    .select("company_name")
+    .eq("company_name", companyName)
+    .maybeSingle();  // Use maybeSingle() instead of single()
+
+  if (fetchError) {
+    console.error("Error checking company existence:", fetchError);
+    return;
+  }
+
+  // If the company does not exist, insert it
+  if (!existingCompany) {
+    const { error: insertError } = await supabase
+      .from("companies")
+      .insert({ company_name: companyName });
+
+    if (insertError) {
+      console.error("Error inserting company:", insertError);
+    } else {
+      console.log("Company added successfully!");
+    }
+  } else {
+    console.log("Company already exists.");
+  }
+}
+
+
 const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +128,11 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   };
 
   const submit = async (event: React.FormEvent) => {
+    
     event.preventDefault();
+
+    // Add the company to the database if it doesn't exist
+    await addCompanyIfNotExists(company);
 
     const selectedStudentUsns = Object.keys(checkedItems).filter(
       (usn) => checkedItems[usn]
