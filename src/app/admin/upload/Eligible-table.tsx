@@ -262,11 +262,11 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start gap-5 mb-10 w-screen min-h-screen">
+    <div className="flex flex-col items-center justify-start gap-4 mb-10 w-screen max-h-[80vh]">
       <div className="flex gap-10 flex-with w-full px-10">
-        <form className="max-h-screen min-h-screen overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl w-full">
+        <form className="h-[80vh] overflow-auto hide-scroller flex-col items-center justify-center text-center border-2 border-accent-foreground p-2 rounded-xl w-full">
           <h2>Scroll and select all eligible students</h2>
-          <div className="flex justify-around h-fit mt-5">
+          <div className="flex justify-around mt-5">
             <Input
               type="text"
               placeholder="Search by name or USN"
@@ -335,7 +335,7 @@ const Eligibility: React.FC<EligibilityProps> = ({ company }) => {
           <Stats company={company} />
 
           {/* Selected Students Box */}
-          <div className="border-2 border-accent-foreground p-4 rounded-xl w-full h-1/2 overflow-scroll hide-scroller">
+          <div className="border-2 border-accent-foreground p-4 rounded-xl h-[40vh] w-full overflow-scroll hide-scroller">
             <h3 className="font-semibold text-center mb-3">
               Selected Students ({selectedStudents.length})
             </h3>
