@@ -312,7 +312,7 @@ export default function Interview_display({
         ))}
 
         {/* Render companies the student is NOT eligible for */}
-        {ineligibleCompanies.length > 0 && filters.eligibility !=="true" &&
+        {ineligibleCompanies.length > 0 && filters.eligibility=="false" && filters.applied !=="true"&&
           students.length > 0 &&
           ineligibleCompanies.map((name, index) => (
             <div key={index} className="company-container">
