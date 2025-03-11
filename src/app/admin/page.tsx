@@ -6,11 +6,21 @@ import Interview_display from "@/components/creativitiy/interview_display";
 import Chatbot from "@/components/creativitiy/chatbot";
 import { UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button"
+import Image from "next/image";
 import { useRouter } from "next/navigation";  // Import useRouter
 
 import { useState } from "react";
 import "../../components/styles/page.css"; // Ensure this exists
 import "../../app/globals.css"; // Ensure this exists
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 // Load Poppins via next/font/google
 const poppins = Poppins({
@@ -60,10 +70,17 @@ export default function Home() {
   };
 
   return (
-    <div
-      className={`flex flex-col gap-5 ${poppins.variable}`} // Add the font variable
-      style={{ backgroundColor: "var(--background)" }}
-    >
+    <div className={`relative w-full h-[100vh] flex flex-col gap-5 ${poppins.variable}`}>
+      <Image
+        src="/abstract4.jpg"
+        alt="Background"
+        fill
+        style={{
+          objectFit: "cover",
+          zIndex: -1
+        }}
+        priority
+      />
       <header className="header">
         <h1>DriveMetrix</h1>
         <nav className="nav">
@@ -89,89 +106,123 @@ export default function Home() {
       </header>
 
 
-      <div className="display-container">
-        <div className="student-display-container gap-5">
+      <div className="relative display-container">
+        <div className="relative student-display-container gap-5">
           <Student_display usn={usn} />
-          <div className="filter-container h-1/3">
-            <input
-              onChange={(e) => setCompanyName(e.target.value)}
-              placeholder="Example: Microsoft"
-              className="company-input"
-            ></input>
-
-            <div className="filter-box">
-              <label htmlFor="eligibility-no">Eligibility:</label>
-              <input 
-                type="radio" 
-                name="eligibility"
-                id="eligibility-yes" 
-                value="true" 
-                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
-              <input 
-                type="radio" 
-                name="eligibility"
-                id="eligibility-no" 
-                value="false" 
-                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
+          <div className="filter-container">
+            <div className="w-full flex items-center justify-between">
+              <input
+                onChange={(e) => setCompanyName(e.target.value)}
+                placeholder="Microsoft"
+                className="company-input"
+              ></input>
+              <Button onClick={clearFilters}>Clear Filters</Button>
             </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Filter</TableHead>
+                  <TableHead>Yes</TableHead>
+                  <TableHead>No</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Eligibility: </TableCell>
+                  <TableCell>
+                    <input 
+                      type="radio" 
+                      name="eligibility" 
+                      id="eligibility-yes" 
+                      value="true" 
+                      onChange={(e) => {updateFilter(e.target.name, e.target.value)}}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <input 
+                      type="radio" 
+                      name="eligibility" 
+                      id="eligibility-no" 
+                      value="false" 
+                      onChange={(e) => {updateFilter(e.target.name, e.target.value)}}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Applied: </TableCell>
+                  <TableCell>
+                    <input 
+                      type="radio" 
+                      name="applied" 
+                      id="optin-yes" 
+                      value="true" 
+                      onChange={(e) => {updateFilter(e.target.name, e.target.value)}}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <input 
+                      type="radio" 
+                      name="applied" 
+                      id="optin-no" 
+                      value="false" 
+                      onChange={(e) => {updateFilter(e.target.name, e.target.value)}}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Shortlisted: </TableCell>
+                  <TableCell>
+                    <input 
+                      type="radio" 
+                      name="shortlisted" 
+                      id="shortlisted-yes" 
+                      value="true" 
+                      onChange={(e) => {updateFilter(e.target.name, e.target.value)}}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <input 
+                      type="radio" 
+                      name="shortlisted" 
+                      id="shortlisted-no" 
+                      value="false" 
+                      onChange={(e) => {updateFilter(e.target.name, e.target.value)}}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Participated: </TableCell>
+                  <TableCell>
+                    <input 
+                      type="radio" 
+                      name="participated" 
+                      id="participated-yes" 
+                      value="true" 
+                      onChange={(e) => {updateFilter(e.target.name, e.target.value)}}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <input 
+                      type="radio" 
+                      name="participated" 
+                      id="participated-no" 
+                      value="false" 
+                      onChange={(e) => {updateFilter(e.target.name, e.target.value)}}
+                    />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
 
-            <div className="filter-box">
-              <label htmlFor="Optin-no">Opt-In:</label>
-              <input 
-                type="radio" 
-                name="applied"
-                id="optin-yes" 
-                value="true" 
-                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
-              <input 
-                type="radio" 
-                name="applied"
-                id="optin-no" 
-                value="false" 
-                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
-            </div>
-
-            <div className="filter-box">
-              <label htmlFor="shortlisted-no">Short Listed:</label>
-              <input 
-                type="radio" 
-                name="shortlisted"
-                id="shortlisted-yes" 
-                value="true" 
-                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
-              <input 
-                type="radio" 
-                name="shortlisted"
-                id="shortlisted-no" 
-                value="false" 
-                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
-            </div>
-
-            <div className="filter-box">
-              <label htmlFor="Optin-no">Participated:</label>
-              <input 
-                type="radio" 
-                name="participated"
-                id="participated-yes" 
-                value="true" 
-                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>Yes
-              <input 
-                type="radio" 
-                name="participated"
-                id="participated-no" 
-                value="false" 
-                onChange={(e) => updateFilter(e.target.name, e.target.value)}/>No
-            </div>
-            <Button onClick={clearFilters}>Clear Filters</Button>
           </div>
         </div>
 
         <div className="interview-display-container">
           <Interview_display usn={usn} filters={filters} companyName={companyName}/>
         </div>
+        {/* @ts-expect-error Suppressing type error for incompatible attribute assignment*/}
+        <Chatbot usn={usn}/>
       </div>
-      {/* @ts-expect-error Suppressing type error for incompatible attribute assignment*/}
-      <Chatbot usn={usn}/>
     </div>
   );
 }
