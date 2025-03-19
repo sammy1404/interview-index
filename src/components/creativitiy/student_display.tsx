@@ -21,7 +21,7 @@ export default function Student_display({ usn }: Props) {
   }, [usn]);
 
   return (
-    <div className="student-info backgdrop-blur-md">
+    <div className="student-info backgdrop-blur-md hide-scroller">
       <div className="student-info-container">
         <div className="student-header">
           <p className="text-2xl">{students[0]?.name}</p>

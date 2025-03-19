@@ -110,7 +110,7 @@ export default function Home() {
         <div className="relative student-display-container gap-5">
           <Student_display usn={usn} />
           <div className="filter-container">
-            <div className="w-full flex items-center justify-between">
+            <div className="w-full flex items-center justify-around">
               <input
                 onChange={(e) => setCompanyName(e.target.value)}
                 placeholder="Microsoft"

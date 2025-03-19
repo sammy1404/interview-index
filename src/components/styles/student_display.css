@@ -9,7 +9,9 @@
   opacity: 20px;
   background-color: rgba(183, 110, 121, 0.5);
   backdrop-filter: blur(50px);
-  overflow: hidden;
+  border: 3px solid var(--border);
+  border-radius: 8px;
+  overflow-y: scroll;
 }
 .student-info:hover {
   box-shadow: 3px 6px 10px 0 var(--border);
@@ -20,8 +22,6 @@
   min-width: 20rem;
   width: 80%;
   padding: 10px;
-  border: 3px solid var(--border);
-  border-radius: 8px;
 }
 
 .student-header {
