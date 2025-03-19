@@ -4,8 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--border);
-  background-color: var(--background);
+  border-bottom: 3px solid var(--border);
 }
 
 .header h1 {
@@ -73,25 +72,25 @@
 }
 
 .student-display-container {
-  height: 100%;
+  height: 80vh;
   width: 35vw;
   position: relative;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 }
 .company-input {
   margin-bottom: 2px;
   height: 40px;
-  max-width: 200px;
+  max-width: 150px;
   padding: 0.875rem;
   font-size: 1rem;
   background-color: var(--foreground);
   border: 1.5px solid var(--border);
   border-radius: 0.5rem;
-  box-shadow: 2.5px 3px 0 var(--border);
+  box-shadow: 1px 1px 0 var(--border);
   outline: none;
   transition: ease 0.25s;
 }
@@ -105,21 +104,15 @@
 
   min-width: 20rem;
   width: 20rem;
-  min-height: 15rem;
-  height: 30%;
+  height: 40vh;
 
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: space-evenly;
 
-  border: 4px solid var(--border)
+  border: 3px solid var(--border);
+  border-radius: 6px;
 }
 
-.filter-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
 

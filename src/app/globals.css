@@ -6,44 +6,44 @@
 
 @layer base {
 
-:root  {
-  --background: #faedcd;
-  --foreground: 74 5% 0%;
-  --card: #d4a373;
-  --card-foreground: 74 5% 10%;
-  --popover: 74 100% 95%;
-  --popover-foreground: 74 100% 0%;
-  --primary: 74 0% 0%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: #d8e0a8;
-  --secondary-foreground: 0 0% 0%;
-  --muted: 36 30% 85%;
-  --muted-foreground: 74 5% 35%;
-  --accent: 36 30% 80%;
-  --accent-foreground: 74 5% 10%;
-  --destructive: 0 100% 30%;
-  --destructive-foreground: 74 5% 90%;
-  --border: #ccd5ae;
-  --input: 74 30% 18%;
-  --ring: 74 0% 0%;
-  --radius: 0.5rem;
-  --color-1: 0 100% 63%;
-  --color-2: 270 100% 63%;
-  --color-3: 210 100% 63%;
-  --color-4: 195 100% 63%;
-  --color-5: 90 100% 63%;
-}
+  :root  {
+    --background: #faedcd;
+    --foreground: 74 5% 0%;
+    --card: #E5E5E5;
+    --card-foreground: 74 5% 10%;
+    --popover: 74 100% 95%;
+    --popover-foreground: 74 100% 0%;
+    --primary: 74 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: #1E1E1E;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 36 30% 85%;
+    --muted-foreground: 74 5% 35%;
+    --accent: #E6B8B7;
+    --accent-foreground: 74 5% 10%;
+    --destructive: 0 100% 30%;
+    --destructive-foreground: 74 5% 90%;
+    --border: #F8F8FF;
+    --input: 74 30% 18%;
+    --ring: 74 0% 0%;
+    --radius: 0.5rem;
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
+  }
   .dark {
---color-1: 0 100% 63%;
---color-2: 270 100% 63%;
---color-3: 210 100% 63%;
---color-4: 195 100% 63%;
---color-5: 90 100% 63%;
-}
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
+  }
 }
 
 body {
-  color: var(--foreground);
+  color: var(--accent);
   background-color: var(--background);
   font-family: "Poppins", Arial, sans-serif;
   font-weight: 600;
@@ -60,7 +60,6 @@ body {
   scrollbar-width: none; /* Hides scrollbar in Firefox */
   -ms-overflow-style: none; /* Hides scrollbar in IE/Edge */
 }
-
 
 
 @layer base {

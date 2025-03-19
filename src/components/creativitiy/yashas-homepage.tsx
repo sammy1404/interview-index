@@ -11,7 +11,7 @@ const HomePage = () => {
             <Clerk />
         </nav>
         <div className="content">
-          <h2>Welcome to <span>DriveMetrics</span></h2>
+          <h2>Welcome to <span>DriveMetrix</span></h2>
           <TypingAnimation>The key to happiness is to login.</TypingAnimation>
         </div>
       </div> 
